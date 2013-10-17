@@ -1,0 +1,30 @@
+{
+  "name": "Bundespolizei",
+  "version": "0.0.1",
+  "homepage": "https://github.com/PauloHenriqueVianna/bundespolizei",
+  "authors": [
+    "Augusto Lazzarotto <gumaro@gmail.com",
+    "Guto Foletto <gutofoletto@gmail.com>",
+    "Paulo Henrique Vianna <phtsiufsm@gmail.com>",
+    "Vinicius Bisognin <vinibiso@gmail.com>"
+  ],
+  "description": "System for bundespolizei",
+  "keywords": [
+    "bundespolizei"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "src/components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2.0.3",
+    "nnnick-chartjs": "*",
+    "sass-bootstrap": "~3.0.0"
+  }
+}

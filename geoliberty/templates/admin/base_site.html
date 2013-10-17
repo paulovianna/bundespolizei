@@ -1,0 +1,12 @@
+{% extends "admin/base.html" %}
+{% load i18n admin_reorder_tag %}
+
+{% block title %}{{ title }} | {% trans 'Geo Liberty' %}{% endblock %}
+
+{% block branding %}
+{% admin_reorder %}
+<h1 id="site-name">{% trans 'Painel Administrativo' %}</h1>
+{% endblock %}
+{% block content_title %}{% if title %}<h1>Administração GeoLiberty</h1>{% endif %}{% endblock %}
+
+{% block nav-global %}{% endblock %}

@@ -1,2 +1,6 @@
+.sass-cache/*
+node_modules/*
+src/components/*
+*.sublime-workspace
 *.pyc
 *~
