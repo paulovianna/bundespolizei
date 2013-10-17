@@ -84,11 +84,11 @@ module.exports = function(grunt) {
     watch: {
     	css: {
     		files: 'src/sass/*.scss',
-    		tasks: ['compass:css', 'concat:css', 'cssmin:cs',],
+    		tasks: ['compass:css', 'concat:css', 'cssmin:css',],
     	},
     	bootstrap: {
     		files: 'src/sass/framework/*.scss',
-    		tasks: ['compass:bootstrap', 'concat:css', 'cssmin:cs',]
+    		tasks: ['compass:bootstrap', 'concat:css', 'cssmin:css',]
     	},
     	js: {
     		files: 'src/js/*.js',
