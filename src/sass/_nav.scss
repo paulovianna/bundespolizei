@@ -1,0 +1,44 @@
+.sidebar{
+	background: $nav_bg;
+	height: 100%;
+	position: fixed;
+	top: 50px;
+	left: 0;
+	@include translateX(-100%);
+	@include transition(all .25s linear);
+	z-index: 1;
+
+	.col-md-12{
+		padding: 0;
+	}
+
+	.menu{
+		border: none;
+		@include box-shadow(none);
+		li{
+			margin-left: 15px;
+		}
+	}
+
+	.list-group-item{
+		padding-left: 30px;
+	}
+}
+
+.hidden{
+	display: none;
+}
+
+.menu-active{
+
+	.sidebar{
+		@include translateX(0);
+		@include transition(all .25s linear);
+	}
+
+	.logo{
+		a{
+			color: $body_ln_h;
+		}
+	}
+}

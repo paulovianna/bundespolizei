@@ -2,11 +2,141 @@
 <html lang="pt-br">
 <head>
 	<meta charset="UTF-8">
-	<title>Bundespolizei</title>
-	<link rel="stylesheet" href="assets/css/bundespolizei.min.css" media="screen">
+	<title>{% block title %}GeoLiberty{% endblock %}</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="../assets/css/bundespolizei.min.css">
+	{% block styles %}{% endblock %}
 </head>
 <body>
-	
+	<header class="col-md-12 header">
+		<div class="row">
+			<div class="col-md-2 logo">
+				<h4>
+					<a class="toggle-menu">
+						<span class="glyphicon glyphicon-list"></span>
+						{% block brand %}GeoLiberty{% endblock %}
+					</a>
+				</h4>
+			</div>
+
+			<div class="col-md-10 visible-lg visible-md titlebar">
+				<div class="row">
+					<div class="header-title col-md-6">
+						<h4>{% block header-title %}Home{% endblock header-title %}</h4>
+					</div>
+					
+					<div class="filters col-md-4">
+						{% block filters %}
+						{% endblock %}
+					</div>
+
+					<div class="user-log col-md-2 pull-right">
+						<a href="#" class="pull-right"><span class="glyphicon glyphicon-user"></span> Admin</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</header>
+	<section class="col-md-2 sidebar">
+		<div class="row navigation">
+			<nav class="col-md-12">
+				{% block menu-geoliberty %}
+				<div class="panel panel-default menu">
+					<div class="panel-heading">
+						<span class="panel-title">Mapas GeoLiberty</span>
+					</div>
+					<div class="list-group">
+						<a href="/paises/" class="list-group-item">Paises</a>
+						<a href="/regioes/" class="list-group-item">Regiões</a>
+						<a href="/estados/" class="list-group-item active">Estados</a>
+						<a href="/mesorregioes/" class="list-group-item">Meso Regiões</a>
+						<a href="/microrregioes/" class="list-group-item">Micro Regiões</a>
+					</div>							
+				</div>
+				{% endblock %}
+
+				{% block menu %}{% endblock %}
+			</nav>
+		</div>
+	</section>
+
+	<section class="col-md-12 body">
+			{% block featured %}
+			<div class="row featured">
+				<div class="col-md-12 map">
+					<div id="map-canvas" style="width: 100%; height: 300px"></div>
+				</div>
+			</div>
+			{% endblock featured %}
+		
+			{% block content %}
+			<div class="row">
+				<div class="col-md-4">
+					<h2>Feature</h2>
+					<p>
+						Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+						tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+						quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+						consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+						cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+						proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+					</p>
+				</div>
+
+				<div class="col-md-4">
+					<h2>Feature</h2>
+					<p>
+						Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+						tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+						quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+						consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+						cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+						proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+					</p>
+				</div>
+
+				<div class="col-md-4">
+					<h2>Feature</h2>
+					<p>
+						Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+						tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+						quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+						consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+						cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+						proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+					</p>
+				</div>
+			</div>
+			{% endblock content %}
+	</section>
+
+	<footer class="col-md-12 footer">
+		<div class="row">
+			<div class="col-md-10 col-xs-12 footer">
+			{% block credits %}
+				<p>
+					Desenvolvimento por 
+					<a href="">Guto Foletto</a>,
+					<a href="">Paulo Henrique Vianna</a>.
+				</p>
+				<p>
+					Orientado por <a href="">Joel da Silva</a>
+				</p>
+			{% endblock %}
+			</div>
+			<div class="col-md-1 col-xs-4 emblem">
+				<a href="http://www.cafw.ufsm.br" target="_blank"><img src="/assets/img/cafw.png"></a>
+			</div>
+			<div class="col-md-1 col-xs-4 emblem">
+				<a href="http://www.ufsm.br" target="_blank"><img src="/assets/img/ufsm.png"></a>
+			</div>
+		</div>
+	</footer>
+
 </body>
-<script type="text/javascript" src="assets/js/bundespolizei.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+	<!--<script>window.jQuery || document.write('<script src="../assets/js/jquery.min.js"><\/script>')</script>-->
+<script type="text/javascript" src="../assets/js/bundespolizei.min.js"></script>
+{% block scripts %}{% endblock %}
 </html>

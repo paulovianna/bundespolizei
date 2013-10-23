@@ -1,5 +1,31 @@
-@import 'framework';
+@import 'variables';
+@import 'mixins';
+@import 'compass';
 
-body {
-	color: #000;
+html{
 }
+
+body{
+	color: $body_text;
+	background: $body_bg;
+	font-family: $body_font;
+	height: 100%;
+	overflow: auto;
+}
+
+h1, h2, h3, h4, h5, h6{
+	color: $body_h1;
+	small{
+		color: $body_h1_s;
+	}
+}
+
+img{
+	max-width: 100%;
+}
+
+@import 'header';
+@import 'nav';
+@import 'body';
+@import 'footer';
+

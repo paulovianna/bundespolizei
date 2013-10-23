@@ -10,7 +10,7 @@ from models import *
 
 def Inicio(request):
     
-    return render_to_response('inicio.html',RequestContext(request,{}))
+    return render_to_response('home.html',RequestContext(request,{}))
 
 def Paises(request):
     

@@ -1,0 +1,22 @@
+.body{
+	height: 100%;
+	max-width: 100%;
+	background: $body_text_bg;
+	padding-bottom: 25px;
+	text-align: justify;
+	@include translateX(0);
+	@include transition(all .25s linear);
+
+	.map{
+		padding:0;
+	}
+
+	.featured{
+		margin-bottom: 25px;
+	}
+
+	.charts{
+		width: 100% !important;
+		height: auto !important;
+	}
+}
