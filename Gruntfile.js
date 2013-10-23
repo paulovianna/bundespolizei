@@ -24,16 +24,23 @@ module.exports = function(grunt) {
     	css:{
     		options: {
     			config: 'config.rb',
-    			//noLineComments: true,
-    			outputStyle: 'expanded',
+                specify: ['src/sass/base.scss', 'src/sass/responsive.scss'],
+                noLineComments: true,
     		}
     	},
+        bootstrap:{
+            options:{
+                config: 'config.rb',
+                specify: 'src/sass/bootstrap/bootstrap.scss',
+                noLineComments: true,
+            }
+        }
     },
 
     // Concat will join CSS and JS files into one.
     concat: {
     	css:{
-    		src: ['src/css/*.css', '!src/css/<%= pkg.name %>.css'],
+    		src: [ 'src/css/bootstrap/bootstrap.css', 'src/css/base.css', 'src/css/responsive.css', '!src/css/<%= pkg.name %>.css'],
     		dest: 'src/css/<%= pkg.name %>.css'
     	},
     	js:{
@@ -41,7 +48,7 @@ module.exports = function(grunt) {
     			separator: ';',
     			banner: '<%= banner %>',
     		},
-    		src: ['src/js/*.js', '!src/js/<%= pkg.name %>.js'],
+    		src: ['src/js/*.js', '!src/js/<%= pkg.name %>.js', '!src/js/jquery.min.js'],
     		dest: 'src/js/<%= pkg.name %>.js'
     	}
     },
@@ -61,12 +68,20 @@ module.exports = function(grunt) {
 
     // Copy will copy JS files from bower to src folder.
     copy: {
-    	components:{
+        bootstrap:{
+            files:[
+                { expand: true, flatten: true, src:'<%= bootstrap %>fonts/*.*', dest:'assets/fonts/' },
+                { expand: true, flatten: true, src:'<%= bootstrap %>**/bootstrap.min.js', dest:'src/js/' },
+            ]
+        },
+        chartjs:{
+            files:[
+            { expand: true, flatten: true, src:'<%= chartjs %>**/Chart.min.js', dest:'src/js/' }
+            ]
+        },
+        jquery:{
     		files:[
-    		{ expand: true, flatten: true, src:'<%= bootstrap %>**/bootstrap.min.js', dest:'src/js/' },
-    		{ expand: true, flatten: true, src:'<%= bootstrap %>**/fonts/*.*', dest:'assets/fonts/' },
-    		{ expand: true, flatten: true, src:'<%= jquery %>**/jquery.min.js', dest:'src/js/' },
-    		{ expand: true, flatten: true, src:'<%= chartjs %>**/Chart.min.js', dest:'src/js/' }
+    		{ expand: true, flatten: true, src:'<%= jquery %>**/jquery.min.js', dest:'assets/js/' },
     		]
     	}
     },
@@ -75,7 +90,7 @@ module.exports = function(grunt) {
     uglify: {
     	js:{
     		files:{
-    			'assets/js/<%= pkg.name %>.min.js': 'src/js/<%= pkg.name %>.js',
+    			'assets/js/<%= pkg.name %>.min.js': ['src/js/<%= pkg.name %>.js'],
     		}
     	}
     },
@@ -83,15 +98,15 @@ module.exports = function(grunt) {
     // Watch will monitor changes and run tasks.
     watch: {
     	css: {
-    		files: 'src/sass/*.scss',
+    		files: ['src/sass/**/*.scss', '!(src/sass/boostrap/*.scss)'],
     		tasks: ['compass:css', 'concat:css', 'cssmin:css',],
     	},
     	bootstrap: {
-    		files: 'src/sass/framework/*.scss',
+    		files: 'src/sass/bootstrap/*.scss',
     		tasks: ['compass:bootstrap', 'concat:css', 'cssmin:css',]
     	},
     	js: {
-    		files: 'src/js/*.js',
+    		files: ['src/js/*.js', '!src/js/<%= pkg.name %>.js'],
     		tasks: ['concat:js','uglify:js',]
     	},
     	components:{
@@ -116,8 +131,9 @@ grunt.loadNpmTasks('grunt-contrib-uglify');
 
 // Registering Task groups to call with command line
 grunt.registerTask('default', '');  
-grunt.registerTask('build', ['compass:css', 'copy', 'concat', 'cssmin', 'uglify', ]);
+grunt.registerTask('build', ['compass', 'copy', 'concat', 'cssmin', 'uglify', ]);
 grunt.registerTask('components', ['copy', 'concat:js', 'uglify']);
+grunt.registerTask('bootstrap', ['compass:bootstrap', 'concat:css', 'cssmin',]);
 grunt.registerTask('css', ['compass:css', 'concat:css', 'cssmin',]);
 grunt.registerTask('js', ['concat:js', 'uglify']);
 grunt.registerTask('dev', ['watch',]);
