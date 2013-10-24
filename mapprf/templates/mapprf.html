@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}
+	mapPRF > {{ page }}
+{% endblock title %}
+
+{% block brand %}
+	mapPRF
+{% endblock brand %}
+
+{% block header-title %}
+	Mapa Municípios
+{% endblock header-title %}
+
+{% block header-menu %}
+	Menu mapPRF	
+{% endblock header-menu %}
+
+{% block menu %}
+	<a href="/municipio/" class="list-group-item">Mapa Municípios</a>
+	<a href="/estado/" class="list-group-item">Mapa Estados</a>
+	<a href="/br/" class="list-group-item">Mapa BR386</a>
+{% endblock menu %}
