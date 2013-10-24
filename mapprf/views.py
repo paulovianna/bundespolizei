@@ -5,7 +5,7 @@ from django.template import RequestContext
 from mapprf.models import Ocorrencias, PrfRodovias
 
 
-def ocorrenciasPolitica(request,tipo,cod):
+def ocorrenciasBrasil(request,tipo,cod):
 	if tipo == 'municipio':
 		ocorrencias = Ocorrencias.objects.filter(id_municipio = cod)
 	else:
