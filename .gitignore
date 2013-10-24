@@ -1,3 +1,7 @@
+assets/js/*
+assets/css/*
+src/css/bundespolizei.css
+src/js/bundespolizei.js
 geoliberty/settings.py
 .sass-cache/*
 node_modules/*
