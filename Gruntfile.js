@@ -9,7 +9,6 @@ module.exports = function(grunt) {
   	components_dir 	: 'src/components/',
   	jquery			: '<%= components_dir %>' + 'jquery/',
   	bootstrap		: '<%= components_dir %>' + 'sass-bootstrap/',
-  	chartjs			: '<%= components_dir %>' + 'nnnick-chartjs/',
     // Banner to be included on compressed and compiled files
     banner 			: '/**\n' +
     				  '* <%= pkg.name %> v<%= pkg.version %> \n' +
