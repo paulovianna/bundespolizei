@@ -24,7 +24,6 @@
   ],
   "dependencies": {
     "jquery": "~2.0.3",
-    "nnnick-chartjs": "*",
     "sass-bootstrap": "~3.0.0"
   }
 }

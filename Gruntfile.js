@@ -74,11 +74,6 @@ module.exports = function(grunt) {
                 { expand: true, flatten: true, src:'<%= bootstrap %>**/bootstrap.min.js', dest:'src/js/' },
             ]
         },
-        chartjs:{
-            files:[
-            { expand: true, flatten: true, src:'<%= chartjs %>**/Chart.min.js', dest:'src/js/' }
-            ]
-        },
         jquery:{
     		files:[
     		{ expand: true, flatten: true, src:'<%= jquery %>**/jquery.min.js', dest:'assets/js/' },
