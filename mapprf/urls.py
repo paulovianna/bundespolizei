@@ -3,5 +3,5 @@ from views import ocorrenciasPolitica
 
 
 urlpatterns = patterns('mapprf',
-    url(r'^mapprf/(?P<tipo>\w+)/(?P<cod>\w+)/$', ocorrenciasPolitica),
+    url(r'^(?P<tipo>\w+)/(?P<cod>\w+)/$', ocorrenciasPolitica),
 )

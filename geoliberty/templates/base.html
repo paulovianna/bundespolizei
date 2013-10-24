@@ -5,7 +5,7 @@
 	<title>{% block title %}GeoLiberty{% endblock %}</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
-	<link rel="stylesheet" href="../assets/css/bundespolizei.min.css">
+	<link rel="stylesheet" href="/../assets/css/bundespolizei.min.css">
 	{% block styles %}{% endblock %}
 </head>
 <body>
@@ -27,13 +27,14 @@
 					</div>
 					
 					<div class="filters col-md-4">
-						{% block filters %}
-						{% endblock %}
+						{% block filters %}{% endblock %}
 					</div>
 
+					{% block user-log %}
 					<div class="user-log col-md-2 pull-right">
-						<a href="#" class="pull-right"><span class="glyphicon glyphicon-user"></span> Admin</a>
+						<a href="/admin/" class="pull-right"><span class="glyphicon glyphicon-user"></span> Admin</a>
 					</div>
+					{% endblock user-log %}
 				</div>
 			</div>
 		</div>
@@ -41,22 +42,22 @@
 	<section class="col-md-2 sidebar">
 		<div class="row navigation">
 			<nav class="col-md-12">
-				{% block menu-geoliberty %}
 				<div class="panel panel-default menu">
 					<div class="panel-heading">
-						<span class="panel-title">Mapas GeoLiberty</span>
+						<span class="panel-title">
+							{% block header-menu %}{% endblock header-menu %}
+						</span>
 					</div>
 					<div class="list-group">
+						{% block menu %}
 						<a href="/paises/" class="list-group-item">Paises</a>
 						<a href="/regioes/" class="list-group-item">Regiões</a>
 						<a href="/estados/" class="list-group-item active">Estados</a>
 						<a href="/mesorregioes/" class="list-group-item">Meso Regiões</a>
 						<a href="/microrregioes/" class="list-group-item">Micro Regiões</a>
+						{% endblock menu %}
 					</div>							
 				</div>
-				{% endblock %}
-
-				{% block menu %}{% endblock %}
 			</nav>
 		</div>
 	</section>
@@ -137,6 +138,7 @@
 </body>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 	<!--<script>window.jQuery || document.write('<script src="../assets/js/jquery.min.js"><\/script>')</script>-->
-<script type="text/javascript" src="../assets/js/bundespolizei.min.js"></script>
+{% block prescript %}{% endblock prescript %}
+<script type="text/javascript" src="/../assets/js/bundespolizei.min.js"></script>
 {% block scripts %}{% endblock %}
 </html>

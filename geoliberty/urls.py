@@ -28,4 +28,6 @@ urlpatterns = patterns('',
      url(r'^assets/(?P<path>.*)$', 'django.views.static.serve', {
             'document_root': settings.MEDIA_ROOT,
         }),
+     # URLS mapPRF
+     url(r'^mapprf/', include('mapprf.urls')),
 )
