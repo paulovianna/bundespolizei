@@ -6036,16 +6036,27 @@ img {
   -moz-transition: all 0.25s linear;
   -o-transition: all 0.25s linear;
   transition: all 0.25s linear;
+  overflow: hidden;
 }
 .body .map {
   padding: 0;
+}
+.body .map img {
+  max-width: none;
 }
 .body .featured {
   margin-bottom: 25px;
 }
 .body .charts {
   width: 100% !important;
-  height: auto !important;
+}
+.body .charts h3 {
+  text-align: center;
+}
+
+#acidentes {
+  width: 100%;
+  height: 300px;
 }
 
 footer {
