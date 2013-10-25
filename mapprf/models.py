@@ -24,6 +24,7 @@ class Local(models.Model):
     id = models.IntegerField(primary_key=True)
     br = models.CharField(max_length=8, blank=True)
     km = models.FloatField(null=True, blank=True)
+    geo = models.PointField('Geo')
     class Meta:
         db_table = '"ocorrencias\".\"local"'
 

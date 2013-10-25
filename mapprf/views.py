@@ -4,10 +4,9 @@ from django.core import serializers
 from django.http import HttpResponse
 from django.shortcuts import render_to_response
 from django.template import RequestContext
-from django.core.context_processors import csrf	
 from django.utils import simplejson
 from django.db.models import Max
-from mapprf.models import Ocorrencias, PrfRodovias
+from mapprf.models import Ocorrencias, PrfRodovias, Local
 
 
 def ocorrenciasMunicipio(request,cod):
@@ -107,12 +106,13 @@ def ocorrenciasRodovia(request,cod):
 		a.mortes = ocorrenciasSeg.filter(ocorrenciapessoa__id_pessoa__id_estado_fisico=4).count()
 
 	ocorrencias = Ocorrencias.objects.filter(id_local__br=cod)
+	pontos = Local.objects.filter(br=cod)
 	qtOcorrencias = ocorrencias.count()
 	mortes = ocorrencias.filter(ocorrenciapessoa__id_pessoa__id_estado_fisico=4).count()
 	diaDaSemana = ocorrencias.extra(select={'nome':'id_dia_semana'}).values('nome','id_dia_semana__dia_da_semana').order_by().annotate(valor=Count('id_dia_semana'))
 	mes = ocorrencias.extra(select={'nome':'extract(month from data)'}).values('nome').order_by('nome').annotate(valor=Count('data'))
 	hora = ocorrencias.extra(select={'nome':'extract(hour from data)'}).values('nome').order_by('nome').annotate(valor=Count('data'))
-	
+
 	for d in diaDaSemana:
 		porc = (100 * d['valor']) / qtOcorrencias
 		d['nome'] = d['id_dia_semana__dia_da_semana']
@@ -132,7 +132,8 @@ def ocorrenciasRodovia(request,cod):
                                                       'diaDaSemana':diaDaSemana,
                                                       'mes':mes,
                                                       'hora':hora,
-                                                      'rodovia':rodovia}))
+                                                      'rodovia':rodovia,
+                                                      'pontos':pontos}))
 
 
 def getMes(cod):
