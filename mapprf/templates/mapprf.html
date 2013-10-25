@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block title %}
-	mapPRF > {{ page }}
+	mapPRF
 {% endblock title %}
 
 {% block brand %}
@@ -9,7 +9,7 @@
 {% endblock brand %}
 
 {% block header-title %}
-	Mapa Municípios
+	Início
 {% endblock header-title %}
 
 {% block header-menu %}
@@ -17,7 +17,20 @@
 {% endblock header-menu %}
 
 {% block menu %}
-	<a href="/municipio/" class="list-group-item">Mapa Municípios</a>
+	<a href="/municipio/" class="list-group-item">Índice Municípios</a>
 	<a href="/estado/" class="list-group-item">Mapa Estados</a>
 	<a href="/br/" class="list-group-item">Mapa BR386</a>
 {% endblock menu %}
+
+{% block credits %}
+<p>
+	Desenvolvimento por 
+	<a href="">Augusto de Lima</a>,
+	<a href="">Guto Foletto</a>,
+	<a href="">Paulo Henrique Vianna</a>,
+	<a href="">Vinicius Bisognin</a>.
+</p>
+<p>
+	Orientado por <a href="">Joel da Silva</a>
+</p>
+{% endblock credits %}

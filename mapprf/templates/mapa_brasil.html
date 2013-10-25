@@ -1,35 +1,52 @@
 {% extends 'mapprf.html' %}
 
 {% block title %}
-	mapPRF > Municípios
+	mapPRF > Índice Municípios
 {% endblock title %}
 
 {% block header-title %}
-	Mapa Municípios
+	Índice Municípios
 {% endblock header-title %}
 
 {% block featured %}
 <div class="row featured">
-<div class="col-md-12 map">
-	<div id="map-canvas" style="width: 100%; height: 300px"></div>
-</div>
+	<div class="col-md-6 acidentes">
+		<svg id="acidentes"></svg>
+	</div>
+	<div class="col-md-6">
+		
+	</div>
 </div>
 {% endblock featured %}
 
 {% block content %}
-	<div class="row">
+	<div class="row charts">
 		<div class="col-md-4">
-			<h3>Acidentes por Horário</h3>
-			<div class="chartContainer"></div>			
+			{% include 'chart_line.html' with chartName="Acidentes por Horário" %}
 		</div>
 		<div class="col-md-4">
-			<h3>Acidentes por dia da Semana</h3>			
+			{% include 'chart_doughnut.html' with chartName="Acidentes por dia da Semana" %}
 		</div>
 		<div class="col-md-4">
-			<h3>Acidentes por Mês</h3>
+			{% include 'chart_column.html' with chartName="Acidentes por Mês" %}
 		</div>
 	</div>
 {% endblock content %}
 
-{% block prescript %}
-{% endblock prescript %}
+{% block scripts %}
+<script>
+	chartLine();
+	chartDoughnut();
+	chartColumn();
+</script>
+<script>
+	var ac = Snap("#acidentes");
+
+	Snap.load("../../../assets/img/man.svg", function (f) {
+	f.attr({
+		fill: "#ccc"
+	});
+    ac.append(f);
+});
+</script>
+{% endblock scripts %}
