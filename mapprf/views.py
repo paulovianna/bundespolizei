@@ -3,19 +3,17 @@ from django.db.models import Count
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.contrib.gis.gdal import SpatialReference,CoordTransform
-from mapprf.models import Ocorrencias, PrfRodovias, PrfRodovias
+from django.db.models import Max
+from mapprf.models import Ocorrencias, PrfRodovias
 
 
-def ocorrenciasBrasil(request,tipo,cod):
-	if tipo == 'municipio':
-		ocorrencias = Ocorrencias.objects.filter(id_municipio = cod)
-	else:
-		ocorrencias = Ocorrencias.objects.filter(id_municipio = cod)
+def ocorrenciasMunicipio(request,cod):
+	ocorrencias = Ocorrencias.objects.filter(id_municipio = cod)
 	qtOcorrencias = ocorrencias.count()
 	mortes = ocorrencias.filter(ocorrenciapessoa__id_pessoa__id_estado_fisico=4).count()
 	diaDaSemana = ocorrencias.extra(select={'nome':'id_dia_semana'}).values('nome','id_dia_semana__dia_da_semana').order_by().annotate(valor=Count('id_dia_semana'))
-	mes = ocorrencias.extra(select={'nome':'extract(month from data)'}).values('nome').order_by().annotate(valor=Count('data'))
-	hora = ocorrencias.extra(select={'nome':'extract(hour from data)'}).values('nome').order_by().annotate(valor=Count('data'))
+	mes = ocorrencias.extra(select={'nome':'extract(month from data)'}).values('nome').order_by('nome').annotate(valor=Count('data'))
+	hora = ocorrencias.extra(select={'nome':'extract(hour from data)'}).values('nome').order_by('nome').annotate(valor=Count('data'))
 
 	for d in diaDaSemana:
 		porc = (100 * d['valor']) / qtOcorrencias
@@ -39,18 +37,14 @@ def ocorrenciasBrasil(request,tipo,cod):
 
 
 def ocorrenciasSegmento(request,cod):
-	rodovia = Rodovias.objects.filter(codigo__contains='386BR')
-	ct = CoordTransform(SpatialReference('EPSG:4326'), SpatialReference('EPSG:900913'))
-	for p in rodovia:
-		p.geometry.transform(ct)
 	segmento = PrfRodovias.objects.get(id=cod)
 	ocorrencias = Ocorrencias.objects.filter(id_local__br=386,id_local__km__range=(segmento.kmi,segmento.kmf))
 	qtOcorrencias = ocorrencias.count()
 	mortes = ocorrencias.filter(ocorrenciapessoa__id_pessoa__id_estado_fisico=4).count()
 	diaDaSemana = ocorrencias.extra(select={'nome':'id_dia_semana'}).values('nome','id_dia_semana__dia_da_semana').order_by().annotate(valor=Count('id_dia_semana'))
-	mes = ocorrencias.extra(select={'nome':'extract(month from data)'}).values('nome').order_by().annotate(valor=Count('data'))
-	hora = ocorrencias.extra(select={'nome':'extract(hour from data)'}).values('nome').order_by().annotate(valor=Count('data'))
-
+	mes = ocorrencias.extra(select={'nome':'extract(month from data)'}).values('nome').order_by('nome').annotate(valor=Count('data'))
+	hora = ocorrencias.extra(select={'nome':'extract(hour from data)'}).values('nome').order_by('nome').annotate(valor=Count('data'))
+	
 	for d in diaDaSemana:
 		porc = (100 * d['valor']) / qtOcorrencias
 		d['nome'] = d['id_dia_semana__dia_da_semana']
@@ -69,22 +63,40 @@ def ocorrenciasSegmento(request,cod):
                                                       'mortes': mortes,
                                                       'diaDaSemana':diaDaSemana,
                                                       'mes':mes,
-                                                      'hora':hora,
-                                                      'rodovia':rodovia}))
+                                                      'hora':hora}))
 
 
 def ocorrenciasRodovia(request,cod):
-	rodovia = Rodovias.objects.filter(codigo__contains='386BR')
-	ct = CoordTransform(SpatialReference('EPSG:4326'), SpatialReference('EPSG:900913'))
-	for p in rodovia:
-		p.geometry.transform(ct)
-	ocorrencias = Ocorrencias.objects.filter(id_local__br=cod)
+	codigo = str(cod) + 'BR'
+	rodovia = PrfRodovias.objects.filter(codigo__contains=codigo)
+	maior = 0
+	for a in rodovia:
+		count = Ocorrencias.objects.filter(id_local__br=cod,id_local__km__range=(a.kmi,a.kmf)).count()
+		media = count / (a.kmf - a.kmi)
+		if media > maior:
+			maior = media
+	for a in rodovia:
+		count = Ocorrencias.objects.filter(id_local__br=cod,id_local__km__range=(a.kmi,a.kmf)).count()
+		media = count / (a.kmf - a.kmi)
+		porc = (100 * media) / maior
+		if (porc >= 0) and (porc < 20):
+			a.cor = '#369EAD'
+		elif (porc >= 20) and (porc < 40):
+			a.cor = '#86B402'
+		elif (porc >= 40) and (porc < 60):
+			a.cor = '#C8B631'
+		elif (porc >= 60) and (porc < 80):
+			a.cor = '#F79647'
+		else:
+			a.cor = '#C24642'
+	segmento = PrfRodovias.objects.get(id=cod)
+	ocorrencias = Ocorrencias.objects.filter(id_local__br=cod,id_local__km__range=(segmento.kmi,segmento.kmf))
 	qtOcorrencias = ocorrencias.count()
 	mortes = ocorrencias.filter(ocorrenciapessoa__id_pessoa__id_estado_fisico=4).count()
 	diaDaSemana = ocorrencias.extra(select={'nome':'id_dia_semana'}).values('nome','id_dia_semana__dia_da_semana').order_by().annotate(valor=Count('id_dia_semana'))
-	mes = ocorrencias.extra(select={'nome':'extract(month from data)'}).values('nome').order_by().annotate(valor=Count('data'))
-	hora = ocorrencias.extra(select={'nome':'extract(hour from data)'}).values('nome').order_by().annotate(valor=Count('data'))
-
+	mes = ocorrencias.extra(select={'nome':'extract(month from data)'}).values('nome').order_by('nome').annotate(valor=Count('data'))
+	hora = ocorrencias.extra(select={'nome':'extract(hour from data)'}).values('nome').order_by('nome').annotate(valor=Count('data'))
+	
 	for d in diaDaSemana:
 		porc = (100 * d['valor']) / qtOcorrencias
 		d['nome'] = d['id_dia_semana__dia_da_semana']
