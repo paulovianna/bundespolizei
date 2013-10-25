@@ -1,0 +1,42 @@
+<h3>{{chartName}}</h3>	
+<div id="chart-hora" style="height: 300px; width: 100%;"></div>
+
+<script>
+function chartLine(){
+	// CHART ACIDENTES/HORAS
+	var chartHora = new CanvasJS.Chart("chart-hora",
+	{
+		zoomEnabled: true,
+		panEnabled: true,
+		backgroundColor: "none",
+		legend: {
+			horizontalAlign: "center",
+			verticalAlign: "center"        
+		},
+		axisY:{
+			includeZero: false
+		},
+		axisX:{
+			interval: 4,
+			intervalType: "hour",
+			suffix: "h",
+			maximum: 25
+		},
+			data: [ {
+	      	type: "line",
+	      	toolTipContent: "{x}h: {y} Acidentes",
+	     	dataPoints: [
+			{% for h in hora|dictsort:"nome" %}
+				{% if forloop.last %}
+					{ x: "{{ h.nome }}", y: {{ h.valor }} }
+				{% else %}
+					{ x: "{{ h.nome }}", y: {{ h.valor }} },
+				{% endif %}
+			{% endfor %}
+			]
+		}]
+	});
+
+	chartHora.render();
+}
+</script>

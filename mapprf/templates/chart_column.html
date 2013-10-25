@@ -1,0 +1,34 @@
+<h3>{{chartName}}</h3>
+<div id="chart-mes" style="height: 300px; width: 100%;"></div>
+
+<script>
+// CHART ACIDENTES/MESES
+function chartColumn(){
+	var chartMes = new CanvasJS.Chart("chart-mes",
+	{
+		backgroundColor: 'none',
+		axisY:{
+			includeZero: false
+		},
+		axisX:{
+			interval: 1,
+			intervalType: "month",
+		},
+		data: [
+		{
+			dataPoints: [
+			{% for m in mes %}
+				{% if forloop.last %}
+					{ y: {{m.valor}}, label: "{{ m.nome|slice:':3'}}", toolTipContent: "{{m.nome}}: {y} Acidentes" }
+				{% else %}
+					{ y: {{m.valor}}, label: "{{ m.nome|slice:':3'}}", toolTipContent: "{{m.nome}}: {y} Acidentes"},
+				{% endif %}
+			{% endfor %}
+			]
+		}
+		]
+	});
+
+	chartMes.render();
+}
+</script>
