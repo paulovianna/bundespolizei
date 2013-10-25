@@ -4,6 +4,6 @@ from views import ocorrenciasMunicipio, ocorrenciasSegmento, ocorrenciasRodovia
 
 urlpatterns = patterns('mapprf',
     url(r'^municipio/(?P<cod>\w+)/', ocorrenciasMunicipio),
-    url(r'^segmento/(?P<cod>\w+)/$', ocorrenciasSegmento),
+    url(r'^segmento/$', ocorrenciasSegmento),
     url(r'^rodovia/(?P<cod>\w+)/$', ocorrenciasRodovia),
 )

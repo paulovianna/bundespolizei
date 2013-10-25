@@ -17,16 +17,15 @@
 {% endblock featured %}
 
 {% block content %}
-	<div class="row">
+	<div class="row featured">
 		<div class="col-md-4">
-			<h3>Acidentes por Horário</h3>
-			<div class="chartContainer"></div>			
+			{% include 'chart_line.html' with chartName='Acidentes por Horário' %}	
 		</div>
 		<div class="col-md-4">
-			<h3>Acidentes por dia da Semana</h3>			
+			{% include 'chart_doughnut.html' with chartName='Acidentes por dia da Semana' %}				
 		</div>
 		<div class="col-md-4">
-			<h3>Acidentes por Mês</h3>
+			{% include 'chart_column.html' with chartName='Acidentes por Mês' %}	
 		</div>
 	</div>
 {% endblock content %}
@@ -35,10 +34,14 @@
 {% endblock prescript %}
 
 {% block scripts %}
-<script type="text/javascript"
-    src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCoPgKjGBqZDtxdR7Rqs0U5f8eoACacb2E&sensor=true">
+
+<script>
+	chartLine();
+	chartDoughnut();
+	chartColumn();
 </script>
-<script type="text/javascript">
+<script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCoPgKjGBqZDtxdR7Rqs0U5f8eoACacb2E&sensor=true"></script>
+<script>
 	var mapOptions = {
     zoom: 7,
     center: new google.maps.LatLng(-28.526622,-52.839661),
@@ -46,7 +49,7 @@
   }
   var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
 </script>
-<script type="text/javascript">
+<script>
 var coordenada = [
 {% for a in rodovia %}
 		["{{ a.id }}" ,
@@ -55,7 +58,9 @@ var coordenada = [
 				new google.maps.LatLng({{ b.1|replace }} {{ "," }} {{ b.0|replace }}),
 			{% endif %}
 		{% endfor %}
-		"{{ a.cor }}" 
+		"{{ a.cor }}",
+		"{{ a.ocorrencias }}",
+		"{{ a.mortes }}"
 		{% if forloop.last %}
 			]
 		{% else %}
@@ -82,7 +87,6 @@ var linhas = new Array(
 {% endfor %}
 );
 
-
 var linha = new Array();
 for (var i = 0; i < linhas.length; i++) {
 	linha[i] = new google.maps.Polyline({
@@ -93,30 +97,40 @@ for (var i = 0; i < linhas.length; i++) {
 	strokeWeight: 10
 	});
 google.maps.event.addListener(linha[i], 'click', function() {
-tratamento(this);
+	tratamento(this);
+});
+
+google.maps.event.addListener(linha[i], 'mouseover', function() {
+	this.setOptions({
+		strokeOpacity: 1,
+		strokeWeight: 15
+	});
+
+});
+google.maps.event.addListener(linha[i], 'mouseout', function() {
+	this.setOptions({
+		strokeOpacity: 0.8,
+		strokeWeight: 10
+	});
 });
 
 function tratamento(l){
 	for (var j = 0; j < coordenada.length; j++) {
-		//alert((l.getPath().getArray())[0]);
 		if ((l.getPath().getArray())[0].equals(coordenada[j][1]) ){
-			alert(coordenada[j][0]);
-			/*
 			id = coordenada[j][0];
 			$.ajax({
 			type: "GET", 
-			url: "", 
+			url: "/mapprf/segmento/", 
 			data: "id="+id, 
 			success: function(resposta){ 
-			var dadosRetornados = resposta.split("-");
-			//criar vetores e atualizar os graficos
-			}
+				var obj = eval ("(" + resposta + ")");
+				chartDoughnut(obj.dia);
+				chartLine(obj.hora);
+				chartColumn(obj.mes);
+				}
 			});
-
-			*/
 		}
 	}
-
 }
 linha[i].setMap(map);
 }
