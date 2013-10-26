@@ -1,27 +1,38 @@
 <h3>{{chartName}}</h3>
 <div id="chart-semana" style="height: 300px; width: 100%;"></div>
 <script>
-	// CHART ACIDENTES/DIA DA SEMANA
-function chartDoughnut(){
+function chartDoughnut(semana){
+
+	if (semana !== null){
+
+	for(var i=0; i < semana.length; i++){
+		var temp = {y: semana[i].porcentagem, indexLabel: semana[i].nome};
+		dadosSemana.push(temp);	
+	}				
+
+	} else {
+		dadosSemana = [
+		 {% for dia in diaDaSemana %}
+			 {% if forloop.last %}
+			 	{ y: {{ dia.porcentagem }}, indexLabel: "{{ dia.nome }}" }
+			 {% else %}
+			 	{ y: {{ dia.porcentagem }}, indexLabel: "{{ dia.nome }}" },
+			 {% endif %}
+		 {% endfor %}
+		]
+	}
+
 	var chartSemana = new CanvasJS.Chart("chart-semana",
 	{
 		backgroundColor: 'none',
 		data: [{
 			type: "doughnut",
 			toolTipContent: "{y}%",
-			dataPoints: [
-			 {% for dia in diaDaSemana %}
-				 {% if forloop.last %}
-				 	{ y: {{ dia.porcentagem }}, indexLabel: "{{ dia.nome }}" }
-				 {% else %}
-				 	{ y: {{ dia.porcentagem }}, indexLabel: "{{ dia.nome }}" },
-				 {% endif %}
-			 {% endfor %}
-			]
-		}
-		]
+			dataPoints: dadosSemana
+		}]
 	});
 	chartSemana.render();
+	dadosSemana = [];
 }
 
 </script>

@@ -105,3 +105,16 @@
 .female-icon:before { 
 	content: '\e803';
 } /* '' */
+
+
+ul.legendas{
+
+	li{
+		list-style: none;
+	}
+	span[class*='legend-']{
+		width: 24px;
+		height: 24px;
+		background:#333;			
+	}
+}

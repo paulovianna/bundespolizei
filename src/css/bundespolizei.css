@@ -6143,6 +6143,15 @@ img {
 }
 
 /* '' */
+ul.legendas li {
+  list-style: none;
+}
+ul.legendas span[class*='legend-'] {
+  width: 24px;
+  height: 24px;
+  background: #333;
+}
+
 footer {
   padding: 10px 0 5px 0;
   background: #f0f0f3;

@@ -36,9 +36,9 @@
 {% block scripts %}
 
 <script>
-	chartLine();
-	chartDoughnut();
-	chartColumn();
+	chartLine(null);
+	chartDoughnut(null);
+	chartColumn(null);
 </script>
 <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCoPgKjGBqZDtxdR7Rqs0U5f8eoACacb2E&sensor=true"></script>
 <script>
@@ -83,8 +83,8 @@
    controlText.style.paddingRight = '4px';
    
    // Add the text
-   controlText.innerHTML = '<h5>Legenda<h5>' +
-   '<ul>' +
+   controlText.innerHTML = '<h5>Legenda</h5>' +
+   '<ul class="legendas">' +
 	   '<li><span class="legend-blue"></span> 0-19</li>' +
 	   '<li><span class="legend-green"></span> 20-39</li>' +
 	   '<li><span class="legend-yellow"></span> 40-59</li>' +
