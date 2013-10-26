@@ -1,4 +1,4 @@
-{% extends 'mapprf.html' %}
+{% extends 'base.html' %}
 
 {% block title %}
 	mapPRF > Documentação
@@ -17,11 +17,101 @@
 {% endblock featured %}	
 
 {% block content %}
+
 	<div class="row">
-		<div class="col-md-4">
+		<div class="col-md-6">
 			<h2>Documentação</h2>
 			<p>
-				Para acessar, <a href="https://docs.google.com/document/d/1iJo6bl_j3o6ReNH57MKj51gm592a-jFNEMp3_Fri-n8/">Clique Aqui</a>.
+				O Aplicativo <a href="http://200.132.38.35/mapprf/">MapPRF</a> - Mapeamento de Ocorrências da Polícia Rodoviária Federal foi desenvolvido no âmbito do <a href="http://www.w3c.br/Home/ConcursoAplicativos">2° Concurso para Dados Abertos</a> do Ministério da Justiça & W3C Brasil.  Este concurso aconteceu através de uma parceria estabelecida entre o Ministério da Justiça (Secretaria Executiva e Departamento da Polícia Rodoviária Federal), a Controladoria-Geral da União e o Ministério do Planejamento, Orçamento e Gestão (SLTI) tendo como referência a base de dados do Sistema de Informações Gerenciais (SIGER), mantida pelo Departamento de Polícia Rodoviária Federal.
+			</p>
+			<p>
+				Apesar da base de dados disponibilizada ser muito rica e possibilitar a realização de inúmeras análises, por questões de limitação de tempo, para este concurso, optamos por minimizar o escopo e trabalhar apenas com o conjunto de dados dos registros de acidentes nas rodovias federais.   Além deste subconjunto de dados de acidentes de transito, foram utilizados dados da malha viária obtida a partir do <a href="www.transportes.gov.br/">Ministério dos Transportes</a> e também dados oriundos do <a href="www.ibge.gov.br/">IBGE</a> - Instituto Brasileiro de Geografia e Estatística.
+			</p>
+			<p>
+				Neste momento, no MapPRF estão disponíveis para análise os dados de acidentes registrados durante os anos de 2011, 2012 e primeiro semestre de 2013. Estes dados  podem ser analisados através de mapas e gráficos interativos, conforme pode ser visualizado abaixo:
+				<br> 
+
+				<img class="ss-docs" src="https://lh4.googleusercontent.com/-rnwwBe1BG2k/UmsrXKD83jI/AAAAAAAAFo4/zGSmQTUsbZk/w1044-h495-no/inicio.png" alt="Página Inicial da Aplicação" title="Página Inicial da Aplicação">
+				<br>
+				Figura 1: Página Inicial da Aplicação
+
+				<br>
+
+				<img class="ss-docs" src="https://lh6.googleusercontent.com/-e1vx8MzjcR0/Ums1s6a1LsI/AAAAAAAAFpo/aqA50Uf_K0g/w1043-h454-no/cidades.png" alt="Página de Acidentes por Município" title="Página de Acidentes por Município">
+				<br>
+				Figura 2: Página de Acidentes por Município
+				
+				
+			</p>
+			<p>
+				Por questões de minimização de escopo, dificuldades no tratamento de inconsistências e na integração entre as diferentes bases de dados, para algumas análises, o MapPRF disponibiliza consultas mais detalhadas somente para a BR386, a qual está completamente contida no estado do Rio Grande do Sul. Entretanto, estas funcionalidades de análise podem ser aplicadas para as demais Rodovias Federais.  Como exemplo, na imagem abaixo pode ser visualizada a BR386, com o indicador de acidentes por quilômetro, permitindo que o usuário faça a interação com elementos visuais para parametrização e atualização das informações.
+				<br>
+				
+
+				<img class="ss-docs" src="https://lh5.googleusercontent.com/-FlRXOqd9G1Y/UmtAH6ZvVLI/AAAAAAAAFqU/P_JM-yI8_kQ/w936-h510-no/rodovia+1.png" alt="BR386 – Dividida por trechos e com indicador de acidentes por Km" title="BR386 – Dividida por trechos e com indicador de acidentes por Km">
+				<br>
+				Figura 3: BR386 – Dividida por trechos e com indicador de acidentes por Km
+
+			</p>
+			<p>
+				Por considerar que o georreferenciamento pode ser de grande importância para a análise de dados e também para implementação de funcionalidades futuras, na fase de integração de dados elaboramos um procedimento que utiliza interpolação para gerar uma coordenada geográfica (Latitude, Longitude) para identificar o local aproximado de um acidente. Este procedimento foi necessário porque pouquíssimos registros eram georreferenciados na base original. Como exemplo, na imagem abaixo (Fig5) podem ser visualizados o local aproximado de acidentes com mortes.
+				<br>
+				<img class="ss-docs" src="https://lh6.googleusercontent.com/-PhhrokF4GZg/UmtAILGzv4I/AAAAAAAAFqY/fXZJ856zp40/w943-h510-no/rodovia+2.png" alt="Local aproximado de todos os acidentes com mortes ocorridos na BR386" title="Local aproximado de todos os acidentes com mortes ocorridos na BR386">
+				<br>
+				Figura 4: Local aproximado de todos os acidentes com mortes ocorridos na BR386
+
+			</p>
+			<p>
+				Além da análise de dados, o MapPRF permite que usuários com perfil de administrador possam realizar a manutenção e atualização de dados, conforme pode ser visualizado na imagem a seguir. 
+				
+				<br>
+
+				<img class="ss-docs" src="https://lh4.googleusercontent.com/-lEcyx7xcpYw/Umsth2IEnFI/AAAAAAAAFpQ/BGJtGOATzgQ/w1044-h498-no/admin.png" alt="Local aproximado de todos os acidentes com mortes ocorridos na BR386" title="Local aproximado de todos os acidentes com mortes ocorridos na BR386">
+				<br>
+				Figura 5: Painel administrativo do MapPRF
+
+
+			</p>
+		</div>
+		<div class="col-md-6">
+			<h2>Tecnologias</h2>
+			<p>
+				Dentre as tecnologias utilizadas no desenvolvimento, podemos citar as seguintes tecnologias: 
+				<ul>
+					<li><a href="http://www.postgresql.org">SGBD Postgresql</a></li>
+					<li><a href="http://postgis.net/">PostGis</a> - Extensão Espacial para Postgresql</li>
+					<li><a href="http://www.w3schools.com/html/">HTML</a></li>
+					<li><a href="http://www.w3schools.com/js/ ">JavaScript</a></li>
+					<li><a href="http://www.djangoproject.com ">Django</a> Framework</li>
+					<li><a href="http://getbootstrap.com">Bootstrap</a> (Front-end Framework)</li>
+					<li><a href="http://canvasjs.com/">CanvasJS</a></li>
+					<li><a href="http://www.w3.org/Style/CSS">CSS</a></li>
+					<li><a href="http://developers.google.com/maps">Google Maps API</a></li>
+					<li><a href="http://sass-lang.com">SASS</a></li>
+					<li><a href="http://bower.io">Bower</a></li>
+					<li><a href="http://gruntjs.com/">Grunt</a></li>
+				</ul>
+			</p>
+			<p>
+				O desenvolvimento deste aplicativo contou com o apoio da UFSM/CAFW - Universidade Federal de Santa Maria (Campus de Frederico Westphalen).
+
+				<h3>Desenvolvimento</h3>
+				<ul>
+					<li>Paulo Henrique Vianna</li>
+					<li>Antônio Augusto Foletto</li>
+					<li>Vinicius Bisognin Immich</li>
+					<li>Augusto Lazzarotto de Lima</li>
+				</ul>
+				<h3>Coordenador</h3>
+				<ul>
+					<li>Prof. Joel da Silva</li>
+				</ul>
+				<h3>Colaboradores</h3>
+				<ul>
+					<li>Prof. Cristiano Bertolini</li>
+					<li>Prof. Guilherme Bernardino da Cunha</li>
+					<li>Prof. Evandro Preuss</li>
+				</ul>
 			</p>
 		</div>
 	</div>
