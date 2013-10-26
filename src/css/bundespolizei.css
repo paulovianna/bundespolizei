@@ -6061,6 +6061,10 @@ img {
 .body .charts h3 {
   text-align: center;
 }
+.body .ss-docs {
+  margin-bottom: 5px;
+  margin-top: 30px;
+}
 
 #acidentes {
   width: 100%;
