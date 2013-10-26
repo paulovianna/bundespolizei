@@ -9,13 +9,12 @@
 {% endblock header-title %}
 
 {% block featured %}
+<div class="page-header">
+	<h1>Nome da Cidade</h1>
+</div>
 <div class="row featured">
-	<div class="col-md-6 acidentes">
-		<svg id="acidentes"></svg>
-	</div>
-	<div class="col-md-6">
-		
-	</div>
+	{% include 'chart_number.html' with chartName="Acidentes" icon="acidentes" value=ocorrencias %}
+	{% include 'chart_number.html' with chartName="Mortes em Acidentes" icon="mortes" value=mortes %}
 </div>
 {% endblock featured %}
 
@@ -38,15 +37,7 @@
 	chartLine();
 	chartDoughnut();
 	chartColumn();
-</script>
-<script>
-	var ac = Snap("#acidentes");
-
-	Snap.load("../../../assets/img/man.svg", function (f) {
-	f.attr({
-		fill: "#ccc"
-	});
-    ac.append(f);
-});
+	chart_acidentes();
+	chart_mortes();
 </script>
 {% endblock scripts %}
