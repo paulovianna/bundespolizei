@@ -19,10 +19,43 @@
 {% block menu %}
 	<a href="/mapprf/" class="list-group-item">Inicio</a>
 	<a href="/mapprf/municipio/" class="list-group-item">Índice Municípios</a>
-	<a href="" class="list-group-item">Mapa Estados</a>
 	<a href="/mapprf/rodovia" class="list-group-item">Mapa BR386</a>
 	<a href="/mapprf/docs" class="list-group-item">Documentação</a>
 {% endblock menu %}
+
+{% block featured %}
+
+{% endblock featured %}	
+
+{% block content %}
+	
+			<div class="row">
+				<div class="col-md-4">
+					<h2>Sobre</h2>
+					<p>
+						O Aplicativo <a href="http://200.132.38.35/mapprf/">MapPRF</a> - Mapeamento de Ocorrências da Polícia Rodoviária Federal foi desenvolvido no âmbito do <a href="http://www.w3c.br/Home/ConcursoAplicativos">2° Concurso para Dados Abertos</a> do Ministério da Justiça & W3C Brasil. 
+						Além da análise de dados, o MapPRF permite que usuários com perfil de administrador possam realizar a manutenção e atualização de dados.
+
+					</p>
+				</div>
+
+				<div class="col-md-4"> 
+					<h2>Observações</h2>
+					<p>
+						Para poder acessar os recursos da aplicação, clique no menu localizado no canto superior esquerdo da aplicação (MapPRF).	
+					</p>
+				</div>
+
+				<div class="col-md-4">
+					<h2>Documentação</h2>
+					<p>
+						Para maiores informações em questão do desenvolvimento do aplicativo, a mesma poderá ser acessada através do seguinte link (<a href="https://docs.google.com/document/d/1iJo6bl_j3o6ReNH57MKj51gm592a-jFNEMp3_Fri-n8/">Clique Aqui</a>).
+					</p>
+				</div>
+
+			</div>
+		
+			{% endblock content %}
 
 {% block credits %}
 <p>

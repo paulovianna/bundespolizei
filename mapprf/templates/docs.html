@@ -5,34 +5,25 @@
 {% endblock title %}
 
 {% block brand %}
-	mapPRF > Docs
+	mapPRF
 {% endblock brand %}
 
 {% block header-title %}
 	Documentação
 {% endblock header-title %}
 
-{% block header-menu %}
-	Menu mapPRF	
-{% endblock header-menu %}
+{% block featured %}
 
-{% block menu %}
-	<a href="/mapprf/" class="list-group-item">Inicio</a>
-	<a href="/mapprf/municipio/" class="list-group-item">Índice Municípios</a>
-	<a href="" class="list-group-item">Mapa Estados</a>
-	<a href="/mapprf/rodovia" class="list-group-item">Mapa BR386</a>
-	<a href="/mapprf/docs" class="list-group-item">Documentação</a>
-{% endblock menu %}
+{% endblock featured %}	
 
-{% block credits %}
-<p>
-	Desenvolvimento por 
-	<a href="">Augusto de Lima</a>,
-	<a href="">Guto Foletto</a>,
-	<a href="">Paulo Henrique Vianna</a>,
-	<a href="">Vinicius Bisognin</a>.
-</p>
-<p>
-	Orientado por <a href="">Joel da Silva</a>
-</p>
-{% endblock credits %}
+{% block content %}
+	<div class="row">
+		<div class="col-md-4">
+			<h2>Documentação</h2>
+			<p>
+				Para acessar, <a href="https://docs.google.com/document/d/1iJo6bl_j3o6ReNH57MKj51gm592a-jFNEMp3_Fri-n8/">Clique Aqui</a>.
+			</p>
+		</div>
+	</div>
+
+{% endblock content%}
