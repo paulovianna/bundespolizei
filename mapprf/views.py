@@ -7,7 +7,45 @@ from django.template import RequestContext
 from django.utils import simplejson
 from django.db.models import Max
 from mapprf.models import Ocorrencias, PrfRodovias, Local
+from geoliberty.models import Uf
 
+def inicio(request):
+	return render_to_response('mapprf.html',
+                              RequestContext(request,{}))
+
+def docs(request):
+	return render_to_response('docs.html',
+                              RequestContext(request,{}))
+
+def ocorrencias(request):
+	estados = Uf.objects.all()
+	ocorrencias = Ocorrencias.objects.all()
+	qtOcorrencias = ocorrencias.count()
+	mortes = ocorrencias.filter(ocorrenciapessoa__id_pessoa__id_estado_fisico=4).count()
+	diaDaSemana = ocorrencias.extra(select={'nome':'id_dia_semana'}).values('nome','id_dia_semana__dia_da_semana').order_by().annotate(valor=Count('id_dia_semana'))
+	mes = ocorrencias.extra(select={'nome':'extract(month from data)'}).values('nome').order_by('nome').annotate(valor=Count('data'))
+	hora = ocorrencias.extra(select={'nome':'extract(hour from data)'}).values('nome').order_by('nome').annotate(valor=Count('data'))
+
+	for d in diaDaSemana:
+		porc = (100 * d['valor']) / qtOcorrencias
+		d['nome'] = d['id_dia_semana__dia_da_semana']
+		d['porcentagem'] = porc
+	for m in mes:
+		porc = (100 * d['valor']) / qtOcorrencias
+		m['porcentagem'] = porc
+		m['nome'] = getMes(m['nome'])
+	for h in hora:
+		porc = (100 * d['valor']) / qtOcorrencias
+		h['porcentagem'] = porc
+		h['nome'] = int(h['nome'])
+
+	return render_to_response('mapa_brasil.html',
+                              RequestContext(request,{'ocorrencias':qtOcorrencias,
+                                                      'mortes': mortes,
+                                                      'diaDaSemana':diaDaSemana,
+                                                      'mes':mes,
+                                                      'hora':hora,
+                                                      'estados':estados}))
 
 def ocorrenciasMunicipio(request,cod):
 	ocorrencias = Ocorrencias.objects.filter(id_municipio = cod)
@@ -78,7 +116,7 @@ def ocorrenciasSegmento(request):
 	return HttpResponse(data_json)
 
 
-def ocorrenciasRodovia(request,cod):
+def ocorrenciasRodovia(request,cod=386):
 	codigo = str(cod) + 'BR'
 	rodovia = PrfRodovias.objects.filter(codigo__contains=codigo)
 	maior = 0
@@ -106,7 +144,7 @@ def ocorrenciasRodovia(request,cod):
 		a.mortes = ocorrenciasSeg.filter(ocorrenciapessoa__id_pessoa__id_estado_fisico=4).count()
 
 	ocorrencias = Ocorrencias.objects.filter(id_local__br=cod)
-	pontos = Local.objects.filter(br=cod)
+	pontos = Local.objects.filter(br=cod, ocorrencias__ocorrenciapessoa__id_pessoa__id_estado_fisico=4)
 	qtOcorrencias = ocorrencias.count()
 	mortes = ocorrencias.filter(ocorrenciapessoa__id_pessoa__id_estado_fisico=4).count()
 	diaDaSemana = ocorrencias.extra(select={'nome':'id_dia_semana'}).values('nome','id_dia_semana__dia_da_semana').order_by().annotate(valor=Count('id_dia_semana'))

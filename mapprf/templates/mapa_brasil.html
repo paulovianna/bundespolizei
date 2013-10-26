@@ -8,6 +8,19 @@
 	Índice Municípios
 {% endblock header-title %}
 
+{% block filters %}
+<div class="btn-group">
+	<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+		Filtro <span class="caret"></span>
+	</button>
+	<ul class="dropdown-menu" role="menu">
+		{% for e in estados %}
+		<li><a href="#">{{ e }}</a></li>
+		{% endfor %}
+	</ul>
+</div>
+{% endblock filters %}
+
 {% block featured %}
 <div class="page-header">
 	<h1>Nome da Cidade</h1>

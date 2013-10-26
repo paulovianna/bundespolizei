@@ -98,12 +98,11 @@
 <script>
 var pontos = [
 {% for a in pontos %}
-		[
 			new google.maps.LatLng({{ a.geo.1|replace }} {{ "," }} {{ a.geo.0|replace }})
 		{% if forloop.last %}
-			]
+
 		{% else %}
-			],
+			,
 		{% endif %}
 {% endfor %}
 ];
@@ -111,7 +110,7 @@ var ponto = new Array();
 for (var i = 0; i < pontos.length; i++) {
 
 	ponto[i] = new google.maps.Marker({
-		position: new google.maps.LatLng(pontos[i]),
+		position: pontos[i],
 		map: map,
 		title: 'Ocorrencia resultada em Óbito'
 	});
@@ -128,7 +127,7 @@ var coordenada = [
                 "{{ a.ocorrencias }}",
                 "{{ a.mortes }}"
                 {% if forloop.last %}
-                        ]
+                        ]	
                 {% else %}
                         ],
                 {% endif %}
