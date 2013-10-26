@@ -107,14 +107,37 @@
 } /* '' */
 
 
-ul.legendas{
-
+.legendas{
+	padding-left: 10px;
+	vertical-align: middle;
 	li{
 		list-style: none;
+		width: 100%;
+		height: auto;
+		text-align: left;
 	}
-	span[class*='legend-']{
-		width: 24px;
-		height: 24px;
-		background:#333;			
+	[class*='legend-']{
+		width: 16px;
+		height: 16px;
+		background:#333;
+		display: inline-block;		
+	}
+	.legend-blue{
+		background: $chart_blue;
+	}
+	.legend-green{
+		background: $chart_green;
+	}
+	.legend-yellow{
+		background: $chart_yellow;
+	}
+	.legend-orange{
+		background: $chart_orange;
+	}
+	.legend-red{
+		background: $chart_red;
+	}
+	.legend-purple{
+		background: $chart_purple;	
 	}
 }

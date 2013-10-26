@@ -6143,13 +6143,39 @@ img {
 }
 
 /* '' */
-ul.legendas li {
-  list-style: none;
+.legendas {
+  padding-left: 10px;
+  vertical-align: middle;
 }
-ul.legendas span[class*='legend-'] {
-  width: 24px;
-  height: 24px;
+.legendas li {
+  list-style: none;
+  width: 100%;
+  height: auto;
+  text-align: left;
+}
+.legendas [class*='legend-'] {
+  width: 16px;
+  height: 16px;
   background: #333;
+  display: inline-block;
+}
+.legendas .legend-blue {
+  background: #6dbceb;
+}
+.legendas .legend-green {
+  background: #86b402;
+}
+.legendas .legend-yellow {
+  background: #c8b631;
+}
+.legendas .legend-orange {
+  background: #f79647;
+}
+.legendas .legend-red {
+  background: #c24642;
+}
+.legendas .legend-purple {
+  background: #7f6084;
 }
 
 footer {
