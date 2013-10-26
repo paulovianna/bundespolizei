@@ -24,7 +24,9 @@ def ocorrencias(request):
 	cidades = Municipio.objects.all().order_by('municipio')
 	if request.method == 'POST':
 		ocorrencias = Ocorrencias.objects.filter(id_municipio = request.POST.get('cidade'))
+		cidade = Municipio.objects.get(codPrf=request.POST.get('cidade'))
 	else:
+		cidade = 'Brasil' 
 		ocorrencias = Ocorrencias.objects.all()
 	qtOcorrencias = ocorrencias.count()
 	mortes = ocorrencias.filter(ocorrenciapessoa__id_pessoa__id_estado_fisico=4).count()
@@ -51,7 +53,8 @@ def ocorrencias(request):
                                                       'diaDaSemana':diaDaSemana,
                                                       'mes':mes,
                                                       'hora':hora,
-                                                      'cidades':cidades}))
+                                                      'cidades':cidades,
+                                                      'cidade':cidade}))
 
 def ocorrenciasMunicipio(request,cod):
 	ocorrencias = Ocorrencias.objects.filter(id_municipio = cod)
