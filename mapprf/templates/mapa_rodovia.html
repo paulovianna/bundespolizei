@@ -13,6 +13,7 @@
 <div class="col-md-12 map">
 	<div id="map-canvas" style="width: 100%; height: 300px"></div>
 </div>
+<div class="col-md-12"><h5>*Selecione um trecho no mapa para filtrar os resultados</h5></div>
 </div>
 {% endblock featured %}
 
@@ -65,13 +66,13 @@
    // Set CSS styles for the DIV containing the control
    // Setting padding to 5 px will offset the control
    // from the edge of the map
-   controlDiv.style.padding = '5px';
+   controlDiv.style.padding = '10px';
 
    // Set CSS for the control border
    var controlUI = document.createElement('DIV');
    controlUI.style.backgroundColor = 'white';
-   controlUI.style.width = 'auto';
-   controlUI.style.height = '150px';
+   controlUI.style.width = '150px';
+   controlUI.style.height = 'auto';
    controlUI.title = 'Legenda de Cores';
    controlDiv.appendChild(controlUI);
 
@@ -85,11 +86,12 @@
    // Add the text
    controlText.innerHTML = '<h5>Legenda</h5>' +
    '<ul class="legendas">' +
-	   '<li><span class="legend-blue"></span> 0-19</li>' +
-	   '<li><span class="legend-green"></span> 20-39</li>' +
-	   '<li><span class="legend-yellow"></span> 40-59</li>' +
-	   '<li><span class="legend-orange"></span> 60-79</li>' +
-	   '<li><span class="legend-red"></span> 80-100</li>' +
+	   '<li><div class="legend-blue"></div> 0-19</li>' +
+	   '<li><div class="legend-green"></div> 20-39</li>' +
+	   '<li><div class="legend-yellow"></div> 40-59</li>' +
+	   '<li><div class="legend-orange"></div> 60-79</li>' +
+	   '<li><div class="legend-red"></div> 80-100</li>' +
+	   '<li><div class="legend-purple"></div> Trecho Selecionado</li>' +
 	'</ul>' +
    '<small>*Índice = Ocorrencias/Km</small>';
    controlUI.appendChild(controlText);
