@@ -13,7 +13,7 @@
 <div class="col-md-12 map">
 	<div id="map-canvas" style="width: 100%; height: 300px"></div>
 </div>
-<div class="col-md-12"><h5>*Selecione um trecho no mapa para filtrar os resultados</h5></div>
+<div class="col-md-12"><h5>*Clique em um trecho no mapa para filtrar os resultados</h5></div>
 </div>
 {% endblock featured %}
 
@@ -113,6 +113,7 @@ for (var i = 0; i < pontos.length; i++) {
 
 	ponto[i] = new google.maps.Marker({
 		position: pontos[i],
+		icon: '/assets/img/marker_deaths.png',
 		map: map,
 		title: 'Ocorrencia resultada em Óbito'
 	});
