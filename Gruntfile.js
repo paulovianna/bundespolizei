@@ -39,7 +39,7 @@ module.exports = function(grunt) {
     // Concat will join CSS and JS files into one.
     concat: {
     	css:{
-    		src: [ 'src/css/bootstrap/bootstrap.css', 'src/css/base.css', 'src/css/responsive.css', '!src/css/<%= pkg.name %>.css'],
+    		src: [ 'src/css/bootstrap/bootstrap.css', 'src/css/base.css', 'src/css/responsive.css', '!src/css/<%= pkg.name %>.css', 'src/css/chosen.css'],
     		dest: 'src/css/<%= pkg.name %>.css'
     	},
     	js:{

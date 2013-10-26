@@ -4,10 +4,11 @@ from django.core import serializers
 from django.http import HttpResponse
 from django.shortcuts import render_to_response
 from django.template import RequestContext
+from django.core.context_processors import csrf
 from django.utils import simplejson
 from django.db.models import Max
 from mapprf.models import Ocorrencias, PrfRodovias, Local
-from geoliberty.models import Uf
+from geoliberty.models import Municipio
 
 def inicio(request):
 	return render_to_response('mapprf.html',
@@ -18,8 +19,13 @@ def docs(request):
                               RequestContext(request,{}))
 
 def ocorrencias(request):
-	estados = Uf.objects.all()
-	ocorrencias = Ocorrencias.objects.all()
+	ctoken = {}
+	ctoken.update(csrf(request))
+	cidades = Municipio.objects.all().order_by('municipio')
+	if request.method == 'POST':
+		ocorrencias = Ocorrencias.objects.filter(id_municipio = request.POST.get('cidade'))
+	else:
+		ocorrencias = Ocorrencias.objects.all()
 	qtOcorrencias = ocorrencias.count()
 	mortes = ocorrencias.filter(ocorrenciapessoa__id_pessoa__id_estado_fisico=4).count()
 	diaDaSemana = ocorrencias.extra(select={'nome':'id_dia_semana'}).values('nome','id_dia_semana__dia_da_semana').order_by().annotate(valor=Count('id_dia_semana'))
@@ -45,7 +51,7 @@ def ocorrencias(request):
                                                       'diaDaSemana':diaDaSemana,
                                                       'mes':mes,
                                                       'hora':hora,
-                                                      'estados':estados}))
+                                                      'cidades':cidades}))
 
 def ocorrenciasMunicipio(request,cod):
 	ocorrencias = Ocorrencias.objects.filter(id_municipio = cod)

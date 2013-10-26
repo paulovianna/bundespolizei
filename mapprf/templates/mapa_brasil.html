@@ -9,15 +9,18 @@
 {% endblock header-title %}
 
 {% block filters %}
-<div class="btn-group">
-	<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-		Filtro <span class="caret"></span>
-	</button>
-	<ul class="dropdown-menu" role="menu">
-		{% for e in estados %}
-		<li><a href="#">{{ e }}</a></li>
-		{% endfor %}
-	</ul>
+<div class="input-group">
+	<form action="/mapprf/municipio/" method="POST">
+	{% csrf_token %}
+      <select id="cidade" name="cidade" data-placeholder="Escolha a Cidade" class="chosen-select form-control" tabindex="2" style="display:inline-block;">
+        {% for c in cidades %}
+        <option value="{{ c.codPrf }}">{{ c }}</option>
+        {% endfor %}
+      </select>
+      <span class="input-group-btn" style="display:inline-block">
+        <button class="btn btn-default" type="submit">Buscar</button>
+      </span>
+    </form>
 </div>
 {% endblock filters %}
 
@@ -47,10 +50,22 @@
 
 {% block scripts %}
 <script>
-	chartLine();
-	chartDoughnut();
-	chartColumn();
+	chartLine(null);
+	chartDoughnut(null);
+	chartColumn(null);
 	chart_acidentes();
 	chart_mortes();
 </script>
+ <script type="text/javascript">
+    var config = {
+      '.chosen-select'           : {},
+      '.chosen-select-deselect'  : {allow_single_deselect:true},
+      '.chosen-select-no-single' : {disable_search_threshold:10},
+      '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
+      '.chosen-select-width'     : {width:"95%"}
+    }
+    for (var selector in config) {
+      $(selector).chosen(config[selector]);
+    }
+  </script>
 {% endblock scripts %}
