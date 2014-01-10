@@ -1,24 +1,18 @@
 <h3>{{chartName}}</h3>
 <div id="chart-semana" style="height: 300px; width: 100%;"></div>
+
 <script>
+// CHART ACIDENTES/DIA DA SEMANA
 function chartDoughnut(semana){
-
+	
 	if (semana !== null){
-
-	for(var i=0; i < semana.length; i++){
-		var temp = {y: semana[i].porcentagem, indexLabel: semana[i].nome};
-		dadosSemana.push(temp);	
-	}				
-
+		for(var i=0; i < semana.length; i++){
+			var temp = {y: semana[i].porcentagem, indexLabel: semana[i].nome};
+			dadosSemana.push(temp);	
+		}
 	} else {
-		dadosSemana = [
-		 {% for dia in diaDaSemana %}
-			 {% if forloop.last %}
-			 	{ y: {{ dia.porcentagem }}, indexLabel: "{{ dia.nome }}" }
-			 {% else %}
-			 	{ y: {{ dia.porcentagem }}, indexLabel: "{{ dia.nome }}" },
-			 {% endif %}
-		 {% endfor %}
+		dadosSemana = [{% for dia in diaDaSemana %}
+			{% if forloop.last %}{ y: {{ dia.porcentagem }}, indexLabel: "{{ dia.nome }}" }{% else %}{ y: {{ dia.porcentagem }}, indexLabel: "{{ dia.nome }}" },{% endif %}{% endfor %}
 		]
 	}
 
@@ -26,13 +20,37 @@ function chartDoughnut(semana){
 	{
 		backgroundColor: 'none',
 		data: [{
+			click: function(e){
+				var id = $('#idDeConsulta').val();
+					if (id == "None")
+						id = "Brasil"
+
+					dia = e.dataPoint.indexLabel;
+					
+					if(dia == "Segunda-feira")
+						dia = 1;
+					else if(dia == "Terça-feira")
+						dia = 2;
+					else if(dia == "Quarta-feira")
+						dia = 3;
+					else if(dia == "Quinta-feira")
+						dia = 4;
+					else if(dia == "Sexta-feira")
+						dia = 5;
+					else if(dia == "Sábado")
+						dia = 6;
+					else if(dia == "Domingo")
+						dia = 0;
+					
+					fazerAjax(id, dia,"Dia");
+			},
 			type: "doughnut",
 			toolTipContent: "{y}%",
 			dataPoints: dadosSemana
 		}]
-	});
+	});			
+	
 	chartSemana.render();
 	dadosSemana = [];
 }
-
 </script>

@@ -9,11 +9,16 @@
 {% endblock header-title %}
 
 {% block featured %}
+<input type='hidden' name='idDeConsulta' id='idDeConsulta' value='None' />
 <div class="row featured">
 <div class="col-md-12 map">
 	<div id="map-canvas" style="width: 100%; height: 300px"></div>
 </div>
 <div class="col-md-12"><h5>*Clique em um trecho no mapa para filtrar os resultados</h5></div>
+</div>
+<div class="row featured">
+	{% include 'chart_numberAcidentes.html' with chartName="Acidentes" icon="acidentes" value=ocorrencias %}
+	{% include 'chart_numberMortes.html' with chartName="Mortes em Acidentes" icon="mortes" value=mortes %}
 </div>
 {% endblock featured %}
 
@@ -98,19 +103,12 @@
  }
 </script>
 <script>
-var pontos = [
-{% for a in pontos %}
-			new google.maps.LatLng({{ a.geo.1|replace }} {{ "," }} {{ a.geo.0|replace }})
-		{% if forloop.last %}
-
-		{% else %}
-			,
-		{% endif %}
-{% endfor %}
+var pontos = [{% for a in pontos %}
+	new google.maps.LatLng({{ a.geo.1|replace }} {{ "," }} {{ a.geo.0|replace }}) {% if forloop.last %} {% else %},{% endif %}{% endfor %}
 ];
+
 var ponto = new Array();
 for (var i = 0; i < pontos.length; i++) {
-
 	ponto[i] = new google.maps.Marker({
 		position: pontos[i],
 		icon: '/assets/img/marker_deaths.png',
@@ -118,97 +116,90 @@ for (var i = 0; i < pontos.length; i++) {
 		title: 'Ocorrencia resultada em Óbito'
 	});
 }
-var coordenada = [
-{% for a in rodovia %}
-                ["{{ a.id }}" ,
-                {% for b in a.geometry %}
-                        {% if forloop.first %}
-                                new google.maps.LatLng({{ b.1|replace }} {{ "," }} {{ b.0|replace }}),
-                        {% endif %}
-                {% endfor %}
-                "{{ a.cor }}",
-                "{{ a.ocorrencias }}",
-                "{{ a.mortes }}"
-                {% if forloop.last %}
-                        ]	
-                {% else %}
-                        ],
-                {% endif %}
-{% endfor %}
+
+var coordenada = [{% for a in rodovia %}
+    ["{{ a.id }}" , {% for b in a.geometry %}{% if forloop.first %} new google.maps.LatLng({{ b.1|replace }} {{ "," }} {{ b.0|replace }}), {% endif %}{% endfor %}"{{ a.cor }}","{{ a.ocorrencias }}","{{ a.mortes }}"{% if forloop.last %}]	{% else %}],{% endif %} {% endfor %}
 ];
 
-var linhas = new Array(
-{% for a in rodovia %}
-	[
-		{% for b in a.geometry %}
-			{% if forloop.last %}
-				new google.maps.LatLng({{ b.1|replace }} {{ "," }} {{ b.0|replace }})
-			{% else %}
-				new google.maps.LatLng({{ b.1|replace}} {{ "," }} {{ b.0|replace }}),
-			{% endif %}
-		{% endfor %}
-		{% if forloop.last %}
-			]
-		{% else %}
-			],
-		{% endif %}
-{% endfor %}
+var linhas = new Array({% for a in rodovia %}
+	[{% for b in a.geometry %}{% if forloop.last %}new google.maps.LatLng({{ b.1|replace }} {{ "," }} {{ b.0|replace }}){% else %}new google.maps.LatLng({{ b.1|replace}} {{ "," }} {{ b.0|replace }}),{% endif %}{% endfor %}{% if forloop.last %}]{% else %}],{% endif %}{% endfor %}
 );
 
 var linha = new Array();
 for (var i = 0; i < linhas.length; i++) {
 	linha[i] = new google.maps.Polyline({
-	path: linhas[i],
-	geodesic: true,
-	strokeColor: coordenada[i][2],
-	strokeOpacity: 0.8,
-	strokeWeight: 10
-	});
-google.maps.event.addListener(linha[i], 'click', function() {
-	tratamento(this);
-});
-
-google.maps.event.addListener(linha[i], 'mouseover', function() {
-	this.setOptions({
-		strokeColor: '#7f6084',
-		strokeOpacity: 0.8,
-		strokeWeight: 15
-	});
-
-});
-google.maps.event.addListener(linha[i], 'mouseout', function() {
-	var cor = " ";
-	for (var j = 0; j < coordenada.length; j++) {
-		if ((this.getPath().getArray())[0].equals(coordenada[j][1]) )
-			cor = coordenada[j][2];
-	}
-	this.setOptions({
-		strokeColor: cor,
+		path: linhas[i],
+		geodesic: true,
+		strokeColor: coordenada[i][2],
 		strokeOpacity: 0.8,
 		strokeWeight: 10
 	});
-});
 
-function tratamento(l){
-	for (var j = 0; j < coordenada.length; j++) {
-		if ((l.getPath().getArray())[0].equals(coordenada[j][1]) ){
-			id = coordenada[j][0];
-			$.ajax({
+	google.maps.event.addListener(linha[i], 'click', function() {
+		tratamento(this);
+	});
+
+	google.maps.event.addListener(linha[i], 'mouseover', function() {
+		this.setOptions({
+			strokeColor: '#7f6084',
+			strokeOpacity: 0.8,
+			strokeWeight: 15
+		});
+	});
+
+	google.maps.event.addListener(linha[i], 'mouseout', function() {
+		var cor = " ";
+		for (var j = 0; j < coordenada.length; j++) {
+			if ((this.getPath().getArray())[0].equals(coordenada[j][1]) )
+				cor = coordenada[j][2];
+		}
+		this.setOptions({
+			strokeColor: cor,
+			strokeOpacity: 0.8,
+			strokeWeight: 10
+		});
+	});
+
+	function tratamento(l){
+		for (var j = 0; j < coordenada.length; j++) {
+			if ((l.getPath().getArray())[0].equals(coordenada[j][1]) ){
+				id = coordenada[j][0];
+				$('#idDeConsulta').val(id);
+				$.ajax({
+				type: "GET", 
+				url: "/mapprf/segmento/", 
+				data: "id="+id, 
+				success: function(resposta){ 
+					var obj = eval ("(" + resposta + ")");
+					chartDoughnut(obj.dia);
+					chartLine(obj.hora);
+					chartColumn(obj.mes);
+					$('.valueAcidentes').text(obj.acidentes);
+					$('.valueMortes').text(obj.mortes);
+					}
+				});
+			}
+		}
+	}
+
+
+
+	linha[i].setMap(map);
+}
+
+function fazerAjax(id, filtro, tipo){
+    	$.ajax({
 			type: "GET", 
-			url: "/mapprf/segmento/", 
-			data: "id="+id, 
+			url: "/mapprf/rodoviaAjax/", 
+			data: {"id":id, "filtro": filtro, "tipo": tipo},
 			success: function(resposta){ 
-				var obj = eval ("(" + resposta + ")");
+			var obj = eval ("(" + resposta + ")");
 				chartDoughnut(obj.dia);
 				chartLine(obj.hora);
 				chartColumn(obj.mes);
-				}
-			});
-		}
-	}
+				$('.valueAcidentes').text(obj.acidentes);
+				$('.valueMortes').text(obj.mortes);
+			}
+		});
 }
-linha[i].setMap(map);
-}
-
-</script>
-{% endblock scripts %}
+</script>{% endblock scripts %}

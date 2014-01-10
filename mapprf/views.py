@@ -22,6 +22,7 @@ def ocorrencias(request):
 	ctoken = {}
 	ctoken.update(csrf(request))
 	cidades = Municipio.objects.all().order_by('municipio')
+	identificador = request.POST.get('cidade')
 	if request.method == 'POST':
 		ocorrencias = Ocorrencias.objects.filter(id_municipio = request.POST.get('cidade'))
 		cidade = Municipio.objects.get(codPrf=request.POST.get('cidade'))
@@ -48,7 +49,8 @@ def ocorrencias(request):
 		h['nome'] = int(h['nome'])
 
 	return render_to_response('mapa_brasil.html',
-                              RequestContext(request,{'ocorrencias':qtOcorrencias,
+                              RequestContext(request,{'iden':identificador,
+                              						  'ocorrencias':qtOcorrencias,
                                                       'mortes': mortes,
                                                       'diaDaSemana':diaDaSemana,
                                                       'mes':mes,
@@ -63,6 +65,10 @@ def ocorrenciasMunicipio(request,cod):
 	diaDaSemana = ocorrencias.extra(select={'nome':'id_dia_semana'}).values('nome','id_dia_semana__dia_da_semana').order_by().annotate(valor=Count('id_dia_semana'))
 	mes = ocorrencias.extra(select={'nome':'extract(month from data)'}).values('nome').order_by('nome').annotate(valor=Count('data'))
 	hora = ocorrencias.extra(select={'nome':'extract(hour from data)'}).values('nome').order_by('nome').annotate(valor=Count('data'))
+	
+
+	identificador = cod
+	print identificador
 
 	for d in diaDaSemana:
 		porc = (100 * d['valor']) / qtOcorrencias
@@ -78,7 +84,8 @@ def ocorrenciasMunicipio(request,cod):
 		h['nome'] = int(h['nome'])
 
 	return render_to_response('mapa_brasil.html',
-                              RequestContext(request,{'ocorrencias':qtOcorrencias,
+                              RequestContext(request,{'iden':identificador,
+                              						  'ocorrencias':qtOcorrencias,
                                                       'mortes': mortes,
                                                       'diaDaSemana':diaDaSemana,
                                                       'mes':mes,
@@ -95,6 +102,7 @@ def ocorrenciasSegmento(request):
 	mes = ocorrencias.extra(select={'nome':'extract(month from data)'}).values('nome').order_by('nome').annotate(valor=Count('data'))
 	hora = ocorrencias.extra(select={'nome':'extract(hour from data)'}).values('nome').order_by('nome').annotate(valor=Count('data'))
 	
+
 	for d in diaDaSemana:
 		porc = (100 * d['valor']) / qtOcorrencias
 		d['nome'] = d['id_dia_semana__dia_da_semana']
@@ -108,6 +116,7 @@ def ocorrenciasSegmento(request):
 		h['porcentagem'] = porc
 		h['nome'] = int(h['nome'])
 	
+
 	def ValuesQuerySetToDict(vqs):
 		return [item for item in vqs]
 
@@ -119,11 +128,70 @@ def ocorrenciasSegmento(request):
 	dados['dia'] = data_dict
 	dados['mes'] = data_dict1
 	dados['hora'] = data_dict2
+	dados['mortes'] = mortes
+	dados['acidentes'] = qtOcorrencias
 
 	data_json = simplejson.dumps(dados)
 
 	return HttpResponse(data_json)
 
+
+def ocorrenciasMunicipioAjax(request):	
+	cod = request.GET.get('id')
+	filtro = request.GET.get('filtro')
+	tipo = request.GET.get('tipo')
+	if tipo == "Dia":
+		if cod == "Brasil":
+			ocorrencias = Ocorrencias.objects.filter(id_dia_semana = filtro)
+		else:
+			ocorrencias = Ocorrencias.objects.filter(id_municipio = cod, id_dia_semana = filtro)
+	elif tipo == "Hora":
+		ocorrencias = Ocorrencias.objects.extra(where=['extract(hour from data) = '+filtro])
+		if cod != "Brasil":
+			ocorrencias = ocorrencias.filter(id_municipio = cod)
+	elif tipo == "Mes":
+		ocorrencias = Ocorrencias.objects.extra(where=['extract(month from data) = '+filtro])
+		if cod != "Brasil":
+			ocorrencias = ocorrencias.filter(id_municipio = cod)
+
+	qtOcorrencias = ocorrencias.count()
+	mortes = ocorrencias.filter(ocorrenciapessoa__id_pessoa__id_estado_fisico=4).count()
+	diaDaSemana = ocorrencias.extra(select={'nome':'id_dia_semana'}).values('nome','id_dia_semana__dia_da_semana').order_by().annotate(valor=Count('id_dia_semana'))
+	mes = ocorrencias.extra(select={'nome':'extract(month from data)'}).values('nome').order_by('nome').annotate(valor=Count('data'))
+	hora = ocorrencias.extra(select={'nome':'extract(hour from data)'}).values('nome').order_by('nome').annotate(valor=Count('data'))
+	
+
+	for d in diaDaSemana:
+		porc = (100 * d['valor']) / qtOcorrencias
+		d['nome'] = d['id_dia_semana__dia_da_semana']
+		d['porcentagem'] = porc
+	for m in mes:
+		porc = (100 * m['valor']) / qtOcorrencias
+		m['porcentagem'] = porc
+		m['nome'] = getMes(m['nome'])
+	for h in hora:
+		porc = (100 * h['valor']) / qtOcorrencias
+		h['porcentagem'] = porc
+		h['nome'] = int(h['nome'])
+	
+
+	def ValuesQuerySetToDict(vqs):
+		return [item for item in vqs]
+
+	dados = {}	
+	data_dict = ValuesQuerySetToDict(diaDaSemana)
+	data_dict1 = ValuesQuerySetToDict(mes)
+	data_dict2 = ValuesQuerySetToDict(hora)
+
+	dados['dia'] = data_dict
+	dados['mes'] = data_dict1
+	dados['hora'] = data_dict2
+	dados['mortes'] = mortes
+	dados['acidentes'] = qtOcorrencias
+
+	data_json = simplejson.dumps(dados)
+
+	return HttpResponse(data_json)
 
 def ocorrenciasRodovia(request,cod=386):
 	codigo = str(cod) + 'BR'
@@ -182,6 +250,67 @@ def ocorrenciasRodovia(request,cod=386):
                                                       'rodovia':rodovia,
                                                       'pontos':pontos}))
 
+
+
+def ocorrenciasRodoviaAjax(request):
+	cod = request.GET.get('id')
+	filtro = request.GET.get('filtro')
+	tipo = request.GET.get('tipo')
+
+	if cod == "Brasil":
+		ocorrencias = Ocorrencias.objects.filter(id_local__br=386)
+	else:	
+		segmento = PrfRodovias.objects.get(id=cod)
+		ocorrencias = Ocorrencias.objects.filter(id_local__br=386, id_local__km__range=(segmento.kmi,segmento.kmf))
+
+	if tipo == "Dia":
+		ocorrencias = ocorrencias.filter(id_dia_semana = filtro)
+		
+	elif tipo == "Hora":
+		ocorrencias = ocorrencias.extra(where=['extract(hour from data) = '+filtro])
+		
+	elif tipo == "Mes":
+		ocorrencias = ocorrencias.extra(where=['extract(month from data) = '+filtro])
+		
+
+	qtOcorrencias = ocorrencias.count()
+	mortes = ocorrencias.filter(ocorrenciapessoa__id_pessoa__id_estado_fisico=4).count()
+	diaDaSemana = ocorrencias.extra(select={'nome':'id_dia_semana'}).values('nome','id_dia_semana__dia_da_semana').order_by().annotate(valor=Count('id_dia_semana'))
+	mes = ocorrencias.extra(select={'nome':'extract(month from data)'}).values('nome').order_by('nome').annotate(valor=Count('data'))
+	hora = ocorrencias.extra(select={'nome':'extract(hour from data)'}).values('nome').order_by('nome').annotate(valor=Count('data'))
+	
+
+	for d in diaDaSemana:
+		porc = (100 * d['valor']) / qtOcorrencias
+		d['nome'] = d['id_dia_semana__dia_da_semana']
+		d['porcentagem'] = porc
+	for m in mes:
+		porc = (100 * m['valor']) / qtOcorrencias
+		m['porcentagem'] = porc
+		m['nome'] = getMes(m['nome'])
+	for h in hora:
+		porc = (100 * h['valor']) / qtOcorrencias
+		h['porcentagem'] = porc
+		h['nome'] = int(h['nome'])
+	
+
+	def ValuesQuerySetToDict(vqs):
+		return [item for item in vqs]
+
+	dados = {}	
+	data_dict = ValuesQuerySetToDict(diaDaSemana)
+	data_dict1 = ValuesQuerySetToDict(mes)
+	data_dict2 = ValuesQuerySetToDict(hora)
+
+	dados['dia'] = data_dict
+	dados['mes'] = data_dict1
+	dados['hora'] = data_dict2
+	dados['mortes'] = mortes
+	dados['acidentes'] = qtOcorrencias
+
+	data_json = simplejson.dumps(dados)
+
+	return HttpResponse(data_json)
 
 def getMes(cod):
 	if cod == 1.0:

@@ -4,25 +4,18 @@
 <script>
 // CHART ACIDENTES/MESES
 function chartColumn(mes){
-
+	
 	if (mes !== null){
-
-	for(var i=0; i < mes.length; i++){
-		var temp = {y: mes[i].valor, label: mes[i].nome, toolTipContent: mes[i].nome+": {y} Acidentes" }
-		dadosMes.push(temp);	
-	}				
-
+		for(var i=0; i < mes.length; i++){
+			var temp = {y: mes[i].valor, label: (mes[i].nome).slice(0,3), toolTipContent: mes[i].nome+": {y} Acidentes" }
+			dadosMes.push(temp);	
+		}	
 	} else {
-		dadosMes = [
-			{% for m in mes %}
-				{% if forloop.last %}
-					{ y: {{m.valor}}, label: "{{ m.nome|slice:':3'}}", toolTipContent: "{{m.nome}}: {y} Acidentes" }
-				{% else %}
-					{ y: {{m.valor}}, label: "{{ m.nome|slice:':3'}}", toolTipContent: "{{m.nome}}: {y} Acidentes"},
-				{% endif %}
-			{% endfor %}
+		dadosMes = [{% for m in mes %}
+			{% if forloop.last %}{ y: {{m.valor}}, label: "{{ m.nome|slice:':3'}}", toolTipContent: "{{m.nome}}: {y} Acidentes" }{% else %}{ y: {{m.valor}}, label: "{{ m.nome|slice:':3'}}", toolTipContent: "{{m.nome}}: {y} Acidentes"},{% endif %}{% endfor %}
 		]
 	}
+	
 	var chartMes = new CanvasJS.Chart("chart-mes",
 	{
 		backgroundColor: 'none',
@@ -35,10 +28,44 @@ function chartColumn(mes){
 		},
 		data: [
 		{
+			click: function(e){
+				var id = $('#idDeConsulta').val();
+				if (id == "None")
+					id = "Brasil"
+
+				mes = e.dataPoint.label;
+						
+				if(mes == "Jan")
+					mes = 1.0;
+				else if(mes == "Fev")
+					mes = 2.0;
+				else if(mes == "Mar")
+					mes = 3.0;
+				else if(mes == "Abr")
+					mes = 4.0;
+				else if(mes == "Mai")
+					mes = 5.0;
+				else if(mes == "Jun")
+					mes = 6.0;
+				else if(mes == "Jul")
+					mes = 7.0;
+				else if(mes == "Ago")
+					mes = 8.0;
+				else if(mes == "Set")
+					mes = 9.0;
+				else if(mes == "Out")
+					mes = 10.0;
+				else if(mes == "Nov")
+					mes = 11.0;
+				else if(mes == "Dez")
+					mes = 12.0;
+					
+				fazerAjax(id, mes,"Mes");
+						
+			},
 			dataPoints: dadosMes
-		}
-		]
-	});
+		}]	
+	});	
 
 	chartMes.render();
 	dadosMes = [];
