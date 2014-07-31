@@ -8,8 +8,10 @@ from django.core.context_processors import csrf
 from django.utils import simplejson
 from django.db.models import Max
 from mapprf.models import Ocorrencias, PrfRodovias, Local
-from geoliberty.models import Municipio
+from geoliberty.models import Municipio, Regiao, Uf, Pais
+from django.views.decorators.cache import cache_page
 
+@cache_page(3600 * 24)
 def inicio(request):
 	return render_to_response('mapprf.html',
                               RequestContext(request,{}))
@@ -18,11 +20,13 @@ def docs(request):
 	return render_to_response('docs.html',
                               RequestContext(request,{}))
 
+@cache_page(3600 * 24)
 def ocorrencias(request):
 	ctoken = {}
 	ctoken.update(csrf(request))
 	cidades = Municipio.objects.all().order_by('municipio')
 	identificador = request.POST.get('cidade')
+	print 'CHEGOU AQUI!'
 	if request.method == 'POST':
 		ocorrencias = Ocorrencias.objects.filter(id_municipio = request.POST.get('cidade'))
 		cidade = Municipio.objects.get(codPrf=request.POST.get('cidade'))
@@ -34,7 +38,7 @@ def ocorrencias(request):
 	diaDaSemana = ocorrencias.extra(select={'nome':'id_dia_semana'}).values('nome','id_dia_semana__dia_da_semana').order_by().annotate(valor=Count('id_dia_semana'))
 	mes = ocorrencias.extra(select={'nome':'extract(month from data)'}).values('nome').order_by('nome').annotate(valor=Count('data'))
 	hora = ocorrencias.extra(select={'nome':'extract(hour from data)'}).values('nome').order_by('nome').annotate(valor=Count('data'))
-
+	print 'CHEGOU AQUI 2!'
 	for d in diaDaSemana:
 		porc = (100 * d['valor']) / qtOcorrencias
 		d['nome'] = d['id_dia_semana__dia_da_semana']
@@ -47,7 +51,7 @@ def ocorrencias(request):
 		porc = (100 * d['valor']) / qtOcorrencias
 		h['porcentagem'] = porc
 		h['nome'] = int(h['nome'])
-
+	print 'CHEGOU AQUI3!'
 	return render_to_response('mapa_brasil.html',
                               RequestContext(request,{'iden':identificador,
                               						  'ocorrencias':qtOcorrencias,
@@ -135,6 +139,20 @@ def ocorrenciasSegmento(request):
 
 	return HttpResponse(data_json)
 
+def pesquisa(request):
+	string = request.GET.get("conteudo")
+	cidades = Municipio.objects.filter(municipio__icontains=string)
+	regioes = Regiao.objects.filter(regiao__icontains=string)
+	estados = Uf.objects.filter(uf__icontains=string);
+	paises = Pais.objects.filter(pais__icontains=string);
+	
+	return render_to_response('resultados.html',
+                              RequestContext(request,{'string':string,
+                              						  'cidades':cidades,
+                              						  'regioes':regioes,
+                                                      'estados': estados,
+                                                      'paises':paises}))
+
 
 def ocorrenciasMunicipioAjax(request):	
 	cod = request.GET.get('id')
@@ -193,6 +211,7 @@ def ocorrenciasMunicipioAjax(request):
 
 	return HttpResponse(data_json)
 
+@cache_page(3600 * 24)
 def ocorrenciasRodovia(request,cod=386):
 	codigo = str(cod) + 'BR'
 	rodovia = PrfRodovias.objects.filter(codigo__contains=codigo)
