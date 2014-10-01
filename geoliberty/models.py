@@ -136,6 +136,7 @@ class Municipio(Mpoly):
     
     microRegiao = models.ForeignKey(MicroRegiao,verbose_name='Microrregião')
     municipio = models.CharField('Município',max_length=64)
+    codPrf = models.CharField('CodPrf',max_length=8)
     
     class Meta:
         verbose_name = 'Município'

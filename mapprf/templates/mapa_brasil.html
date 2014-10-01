@@ -1,0 +1,86 @@
+{% extends 'mapprf.html' %}
+
+{% block title %}
+	mapPRF > Índice Municípios
+{% endblock title %}
+
+{% block header-title %}
+	Índice Municípios
+{% endblock header-title %}
+
+{% block filters %}
+<div class="input-group">
+	<form action="/mapprf/municipio/" method="POST">
+	{% csrf_token %}
+      <select id="cidade" name="cidade" data-placeholder="Escolha a Cidade" class="chosen-select form-control" tabindex="2" style="display:inline-block;">
+        {% for c in cidades %} {% if c.codPrf == None %}{% elif c.codPrf == iden %}<option value="{{ c.codPrf }}" selected > {{ c }}</option> {% else %} <option value="{{ c.codPrf }}"> {{ c }} </option>{% endif %}{% endfor %}
+      </select>
+      <span class="input-group-btn" style="display:inline-block">
+        <button class="btn btn-default" type="submit">Buscar</button>
+      </span>
+    </form>
+    <input type='hidden' name='idDeConsulta' id='idDeConsulta' value='{{iden}}' />
+</div>
+{% endblock filters %}
+
+{% block featured %}
+<div class="page-header">
+	<h1>{{ cidade }}</h1>
+</div>
+<div class="row featured">
+	{% include 'chart_numberAcidentes.html' with chartName="Acidentes" icon="acidentes" value=ocorrencias %}
+	{% include 'chart_numberMortes.html' with chartName="Mortes em Acidentes" icon="mortes" value=mortes %}
+</div>
+{% endblock featured %}
+
+{% block content %}
+	<div class="row charts">
+		<div class="col-md-4">
+			{% include 'chart_line.html' with chartName="Acidentes por Horário" %}
+		</div>
+		<div class="col-md-4">
+			{% include 'chart_doughnut.html' with chartName="Acidentes por dia da Semana" %}
+		</div>
+		<div class="col-md-4">
+			{% include 'chart_column.html' with chartName="Acidentes por Mês" %}
+		</div>
+	</div>
+{% endblock content %}
+
+{% block scripts %}
+<script>
+	chartLine(null);
+	chartDoughnut(null);
+	chartColumn(null);
+	chart_acidentes();
+	chart_mortes();
+</script>
+ <script type="text/javascript">
+    var config = {
+      '.chosen-select'           : {},
+      '.chosen-select-deselect'  : {allow_single_deselect:true},
+      '.chosen-select-no-single' : {disable_search_threshold:10},
+      '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
+      '.chosen-select-width'     : {width:"95%"}
+    }
+    for (var selector in config) {
+      $(selector).chosen(config[selector]);
+    }
+
+    function fazerAjax(id, filtro, tipo){
+    	$.ajax({
+			type: "GET", 
+			url: "/mapprf/municipioAjax/", 
+			data: {"id":id, "filtro": filtro, "tipo": tipo},
+			success: function(resposta){ 
+				var obj = eval ("(" + resposta + ")");
+				chartDoughnut(obj.dia);
+				chartLine(obj.hora);
+				chartColumn(obj.mes);
+				$('.valueAcidentes').text(obj.acidentes);
+				$('.valueMortes').text(obj.mortes);
+			}
+		});
+    }
+  </script>
+{% endblock scripts %}

@@ -1,0 +1,288 @@
+@font-face {
+  font-family: 'bundesicon';
+  src: url("../fonts/bundesicon.eot?51034663");
+  src: url("../fonts/bundesicon.eot?51034663#iefix") format("embedded-opentype"), url("../fonts/bundesicon.woff?51034663") format("woff"), url("../fonts/bundesicon.ttf?51034663") format("truetype"), url("../fonts/bundesicon.svg?51034663#bundesicon") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  color: #9c9b9b;
+  background: #f0f0f3;
+  font-family: "Open Sans", sans-serif;
+  height: 100%;
+  overflow: auto;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #89b72d;
+}
+h1 small, h2 small, h3 small, h4 small, h5 small, h6 small {
+  color: #9fab88;
+}
+
+img {
+  max-width: 100%;
+}
+
+.header {
+  height: 50px;
+}
+.header h4 {
+  font-weight: 500;
+  line-height: 44px;
+  margin: 0;
+}
+.header .logo {
+  background: #adb799;
+  color: white;
+  border-top: 5px solid #818972;
+  border-bottom: 1px solid #999;
+  height: 50px;
+  padding-left: 15px;
+}
+.header .logo a {
+  color: #fff;
+  cursor: pointer !important;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.header .logo a:hover {
+  color: #555555;
+  text-decoration: none;
+}
+.header .titlebar {
+  background: #f9ffe8;
+  color: #879173;
+  border-bottom: 1px solid #ddd;
+  border-top: 5px solid #babfae;
+  height: 50px;
+}
+.header .titlebar .header-title {
+  width: auto;
+  height: 50px;
+}
+.header .titlebar .filters .btn-group {
+  margin: 5px 0;
+}
+.header .titlebar .user-log {
+  color: #3399cc;
+  line-height: 44px;
+}
+
+.sidebar {
+  background: #9c9b9b;
+  height: 100%;
+  position: fixed;
+  top: 50px;
+  left: 0;
+  -webkit-transform: translateX(-100%);
+  -moz-transform: translateX(-100%);
+  -ms-transform: translateX(-100%);
+  -o-transform: translateX(-100%);
+  transform: translateX(-100%);
+  -webkit-transition: all 0.25s linear;
+  -moz-transition: all 0.25s linear;
+  -o-transition: all 0.25s linear;
+  transition: all 0.25s linear;
+  z-index: 1;
+}
+.sidebar .col-md-12 {
+  padding: 0;
+}
+.sidebar .menu {
+  border: none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+}
+.sidebar .menu li {
+  margin-left: 15px;
+}
+.sidebar .list-group-item {
+  padding-left: 30px;
+}
+
+.hidden {
+  display: none;
+}
+
+.menu-active .sidebar {
+  -webkit-transform: translateX(0);
+  -moz-transform: translateX(0);
+  -ms-transform: translateX(0);
+  -o-transform: translateX(0);
+  transform: translateX(0);
+  -webkit-transition: all 0.25s linear;
+  -moz-transition: all 0.25s linear;
+  -o-transition: all 0.25s linear;
+  transition: all 0.25s linear;
+}
+.menu-active .logo a {
+  color: #555555;
+}
+
+.body {
+  height: 100%;
+  max-width: 100%;
+  background: #fafafa;
+  padding-bottom: 25px;
+  text-align: justify;
+  -webkit-transform: translateX(0);
+  -moz-transform: translateX(0);
+  -ms-transform: translateX(0);
+  -o-transform: translateX(0);
+  transform: translateX(0);
+  -webkit-transition: all 0.25s linear;
+  -moz-transition: all 0.25s linear;
+  -o-transition: all 0.25s linear;
+  transition: all 0.25s linear;
+  overflow: hidden;
+}
+.body .map {
+  padding: 0;
+}
+.body .map img {
+  max-width: none;
+}
+.body .featured {
+  margin-bottom: 25px;
+}
+.body .charts {
+  width: 100% !important;
+}
+.body .charts h3 {
+  text-align: center;
+}
+.body .ss-docs {
+  margin-bottom: 5px;
+  margin-top: 30px;
+}
+
+#acidentes {
+  width: 100%;
+  height: 300px;
+}
+
+.featured {
+  padding-top: 25px;
+  padding-bottom: 25px;
+}
+
+.chart-number {
+  text-align: center;
+}
+.chart-number .icon {
+  width: 15%;
+  display: inline-block;
+  margin-right: 30px;
+  vertical-align: middle;
+}
+.chart-number .icon-label {
+  display: inline-block;
+  font-weight: 700;
+  text-align: left;
+  vertical-align: middle;
+}
+.chart-number span {
+  font-size: 8em;
+  vertical-align: baseline;
+  color: #000;
+}
+.chart-number b {
+  font-size: 2em;
+  clear: both;
+}
+
+[class$="-icon"], [class*="-icon "] {
+  font-family: "bundesicon";
+  font-style: normal;
+  font-weight: normal;
+  speak: none;
+  text-decoration: inherit;
+  width: 1em;
+  margin-right: .2em;
+  text-align: center;
+  /* opacity: .8; */
+  /* For safety - reset parent styles, that can break glyph codes*/
+  font-variant: normal;
+  text-transform: none;
+  /* fix buttons height, for twitter bootstrap */
+  line-height: 1em;
+  /* Animation center compensation - margins should be symmetric */
+  /* remove if not needed */
+  margin-left: .2em;
+  /* you can be more comfortable with increased icons size */
+  /* font-size: 120%; */
+  /* Uncomment for 3D effect */
+  /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
+}
+
+.acidentes-icon:before {
+  content: '\e801';
+  color: #6dbceb;
+}
+
+/* '' */
+.mortes-icon:before {
+  content: '\e800';
+  color: #c24642;
+}
+
+/* '' */
+.male-icon:before {
+  content: '\e802';
+}
+
+/* '' */
+.female-icon:before {
+  content: '\e803';
+}
+
+/* '' */
+.legendas {
+  padding-left: 10px;
+  vertical-align: middle;
+}
+.legendas li {
+  list-style: none;
+  width: 100%;
+  height: auto;
+  text-align: left;
+}
+.legendas [class*='legend-'] {
+  width: 16px;
+  height: 16px;
+  background: #333;
+  display: inline-block;
+}
+.legendas .legend-blue {
+  background: #6dbceb;
+}
+.legendas .legend-green {
+  background: #86b402;
+}
+.legendas .legend-yellow {
+  background: #c8b631;
+}
+.legendas .legend-orange {
+  background: #f79647;
+}
+.legendas .legend-red {
+  background: #c24642;
+}
+.legendas .legend-purple {
+  background: #7f6084;
+}
+
+footer {
+  padding: 10px 0 5px 0;
+  background: #f0f0f3;
+}
+footer .emblem {
+  text-align: right;
+}
+footer .emblem img {
+  max-width: 80%;
+}

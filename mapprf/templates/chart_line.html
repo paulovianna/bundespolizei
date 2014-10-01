@@ -1,0 +1,57 @@
+<h3>{{chartName}}</h3>	
+<div id="chart-hora" style="height: 300px; width: 100%;"></div>
+
+<script>
+// CHART ACIDENTES/HORAS
+function chartLine(hora) {
+	
+	if (hora !== null){
+		for(var i=0; i < hora.length; i++){
+			var temp = {x: hora[i].nome, y: hora[i].valor};
+			dadosHora.push(temp);	
+		}
+	} else {
+		dadosHora = [{% for h in hora|dictsort:"nome" %}
+			{% if forloop.last %}{ x: "{{ h.nome }}", y: {{ h.valor }} }{% else %}{ x: "{{ h.nome }}", y: {{ h.valor }} },{% endif %}{% endfor %}
+		];
+	}
+
+	var chartHora = new CanvasJS.Chart("chart-hora",
+	{
+		zoomEnabled: true,
+		panEnabled: true,
+		backgroundColor: "none",
+		legend: {
+			horizontalAlign: "center",
+			verticalAlign: "center"        
+		},
+		axisY:{
+			includeZero: false
+		},
+		axisX:{
+			interval: 4,
+			intervalType: "hour",
+			suffix: "h",
+			maximum: 25
+		},
+		data: [ {
+			click: function(e){
+				var id = $('#idDeConsulta').val();
+				
+				if (id == "None")
+					id = "Brasil"
+
+				hora = e.dataPoint.x;
+
+				fazerAjax(id, hora,"Hora");
+			},
+	      	type: "line",
+	      	toolTipContent: "{x}h: {y} Acidentes",
+	     	dataPoints: dadosHora
+		}]
+	});
+
+	chartHora.render();
+	dadosHora = [];
+}
+</script>
