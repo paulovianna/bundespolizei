@@ -9,7 +9,11 @@
 {% endblock header-title %}
 
 {% block featured %}
+<input type='hidden' name='numeroBR' id='numeroBR' value='386' />
 <input type='hidden' name='idDeConsulta' id='idDeConsulta' value='None' />
+<input type='hidden' name='diaValue' id='diaValue' value='ZZZ' />
+<input type='hidden' name='horaValue' id='horaValue' value='ZZZ' />
+<input type='hidden' name='mesValue' id='mesValue' value='ZZZ' />
 <div class="row featured">
 <div class="col-md-12 map">
 	<div id="map-canvas" style="width: 100%; height: 300px"></div>
@@ -23,6 +27,9 @@
 {% endblock featured %}
 
 {% block content %}
+	<button id="diaRetirarFiltro" onclick="fazerAjax('None','dia');">Dia</button>
+	<button id="horaRetirarFiltro" onclick="fazerAjax('None','hora');">Hora</button>
+	<button id="mesRetirarFiltro" onclick="fazerAjax('None','mes');">Mes</button>
 	<div class="row featured">
 		<div class="col-md-4">
 			{% include 'chart_line.html' with chartName='Acidentes por Horário' %}	
@@ -176,22 +183,49 @@ for (var i = 0; i < linhas.length; i++) {
 					chartColumn(obj.mes);
 					$('.valueAcidentes').text(obj.acidentes);
 					$('.valueMortes').text(obj.mortes);
+
+					$('#diaRetirarFiltro').hide();
+					$('#horaRetirarFiltro').hide();
+					$('#mesRetirarFiltro').hide();
 					}
 				});
 			}
 		}
 	}
 
-
-
 	linha[i].setMap(map);
 }
 
-function fazerAjax(id, filtro, tipo){
+function fazerAjax(valor, tipo){
+
+	if($('#'+tipo+'RetirarFiltro').is(":visible")) {
+		$('#'+tipo+'RetirarFiltro').hide();
+		$('#'+tipo+'Value').val('ZZZ');
+	} else{
+		texto = tipo.charAt(0).toUpperCase()+tipo.slice(1)+": "+valor;
+		$('#'+tipo+'RetirarFiltro').text(texto);
+		$('#'+tipo+'RetirarFiltro').show();
+		$('#'+tipo+'Value').val(valor);
+	}
+
+	dia = $('#diaValue').val();
+	hora = $('#horaValue').val();
+	mes = $('#mesValue').val();
+	//quanto for extendido para todas as BRs pode se inicializar essa variavel direto ou botra o numero da BR no campom hidden chamado #numeroBR
+	//fazendo isso a view de consulta de graficos vai funcionar pra todas as brs
+	br = $('#numeroBR').val();
+
+	var id = $('#idDeConsulta').val();
+	if (id == "None")
+		id = "Brasil"
+
+	$('#diaRetirarFiltro').prop("disabled",true);
+	$('#horaRetirarFiltro').prop("disabled",true);
+	$('#mesRetirarFiltro').prop("disabled",true);
     	$.ajax({
 			type: "GET", 
 			url: "/mapprf/rodoviaAjax/", 
-			data: {"id":id, "filtro": filtro, "tipo": tipo},
+			data: {"br": br, "id":id, "dia": dia, "hora": hora, "mes": mes},
 			success: function(resposta){ 
 			var obj = eval ("(" + resposta + ")");
 				chartDoughnut(obj.dia);
@@ -199,7 +233,15 @@ function fazerAjax(id, filtro, tipo){
 				chartColumn(obj.mes);
 				$('.valueAcidentes').text(obj.acidentes);
 				$('.valueMortes').text(obj.mortes);
+				
+				$('#diaRetirarFiltro').prop("disabled",false);
+				$('#horaRetirarFiltro').prop("disabled",false);
+				$('#mesRetirarFiltro').prop("disabled",false);
 			}
 		});
 }
+
+$('#diaRetirarFiltro').hide();
+$('#horaRetirarFiltro').hide();
+$('#mesRetirarFiltro').hide();
 </script>{% endblock scripts %}

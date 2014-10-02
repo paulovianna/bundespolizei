@@ -21,9 +21,6 @@ function chartDoughnut(semana){
 		backgroundColor: 'none',
 		data: [{
 			click: function(e){
-				var id = $('#idDeConsulta').val();
-					if (id == "None")
-						id = "Brasil"
 
 					dia = e.dataPoint.indexLabel;
 					
@@ -42,7 +39,7 @@ function chartDoughnut(semana){
 					else if(dia == "Domingo")
 						dia = 0;
 					
-					fazerAjax(id, dia,"Dia");
+					fazerAjax(dia,"dia");
 			},
 			type: "doughnut",
 			toolTipContent: "{y}%",

@@ -26,7 +26,7 @@ def ocorrencias(request):
 	ctoken.update(csrf(request))
 	cidades = Municipio.objects.all().order_by('municipio')
 	identificador = request.POST.get('cidade')
-	print 'CHEGOU AQUI!'
+	
 	if request.method == 'POST':
 		ocorrencias = Ocorrencias.objects.filter(id_municipio = request.POST.get('cidade'))
 		cidade = Municipio.objects.get(codPrf=request.POST.get('cidade'))
@@ -38,7 +38,7 @@ def ocorrencias(request):
 	diaDaSemana = ocorrencias.extra(select={'nome':'id_dia_semana'}).values('nome','id_dia_semana__dia_da_semana').order_by().annotate(valor=Count('id_dia_semana'))
 	mes = ocorrencias.extra(select={'nome':'extract(month from data)'}).values('nome').order_by('nome').annotate(valor=Count('data'))
 	hora = ocorrencias.extra(select={'nome':'extract(hour from data)'}).values('nome').order_by('nome').annotate(valor=Count('data'))
-	print 'CHEGOU AQUI 2!'
+	
 	for d in diaDaSemana:
 		porc = (100 * d['valor']) / qtOcorrencias
 		d['nome'] = d['id_dia_semana__dia_da_semana']
@@ -51,7 +51,7 @@ def ocorrencias(request):
 		porc = (100 * d['valor']) / qtOcorrencias
 		h['porcentagem'] = porc
 		h['nome'] = int(h['nome'])
-	print 'CHEGOU AQUI3!'
+	
 	return render_to_response('mapa_brasil.html',
                               RequestContext(request,{'iden':identificador,
                               						  'ocorrencias':qtOcorrencias,
@@ -156,21 +156,23 @@ def pesquisa(request):
 
 def ocorrenciasMunicipioAjax(request):	
 	cod = request.GET.get('id')
-	filtro = request.GET.get('filtro')
-	tipo = request.GET.get('tipo')
-	if tipo == "Dia":
-		if cod == "Brasil":
-			ocorrencias = Ocorrencias.objects.filter(id_dia_semana = filtro)
-		else:
-			ocorrencias = Ocorrencias.objects.filter(id_municipio = cod, id_dia_semana = filtro)
-	elif tipo == "Hora":
-		ocorrencias = Ocorrencias.objects.extra(where=['extract(hour from data) = '+filtro])
-		if cod != "Brasil":
-			ocorrencias = ocorrencias.filter(id_municipio = cod)
-	elif tipo == "Mes":
-		ocorrencias = Ocorrencias.objects.extra(where=['extract(month from data) = '+filtro])
-		if cod != "Brasil":
-			ocorrencias = ocorrencias.filter(id_municipio = cod)
+	dia = request.GET.get('dia')
+	hora = request.GET.get('hora')
+	mes = request.GET.get('mes')
+
+	if cod == "Brasil":
+		ocorrencias = Ocorrencias.objects.all()
+	else:
+		ocorrencias = Ocorrencias.objects.filter(id_municipio = cod)
+
+	if dia != "ZZZ":
+		ocorrencias = ocorrencias.filter(id_dia_semana = dia)
+
+	if hora != "ZZZ":
+		ocorrencias = ocorrencias.extra(where=['extract(hour from data) = '+hora])
+
+	if mes != "ZZZ":
+		ocorrencias = ocorrencias.extra(where=['extract(month from data) = '+mes])
 
 	qtOcorrencias = ocorrencias.count()
 	mortes = ocorrencias.filter(ocorrenciapessoa__id_pessoa__id_estado_fisico=4).count()
@@ -272,24 +274,26 @@ def ocorrenciasRodovia(request,cod=386):
 
 
 def ocorrenciasRodoviaAjax(request):
+	br = request.GET.get('br')
 	cod = request.GET.get('id')
-	filtro = request.GET.get('filtro')
-	tipo = request.GET.get('tipo')
+	dia = request.GET.get('dia')
+	hora = request.GET.get('hora')
+	mes = request.GET.get('mes')
 
 	if cod == "Brasil":
-		ocorrencias = Ocorrencias.objects.filter(id_local__br=386)
+		ocorrencias = Ocorrencias.objects.filter(id_local__br=br)
 	else:	
 		segmento = PrfRodovias.objects.get(id=cod)
-		ocorrencias = Ocorrencias.objects.filter(id_local__br=386, id_local__km__range=(segmento.kmi,segmento.kmf))
+		ocorrencias = Ocorrencias.objects.filter(id_local__br=br, id_local__km__range=(segmento.kmi,segmento.kmf))
 
-	if tipo == "Dia":
-		ocorrencias = ocorrencias.filter(id_dia_semana = filtro)
+	if dia != "ZZZ":
+		ocorrencias = ocorrencias.filter(id_dia_semana = dia)
 		
-	elif tipo == "Hora":
-		ocorrencias = ocorrencias.extra(where=['extract(hour from data) = '+filtro])
+	if hora != "ZZZ":
+		ocorrencias = ocorrencias.extra(where=['extract(hour from data) = '+hora])
 		
-	elif tipo == "Mes":
-		ocorrencias = ocorrencias.extra(where=['extract(month from data) = '+filtro])
+	if mes != "ZZZ":
+		ocorrencias = ocorrencias.extra(where=['extract(month from data) = '+mes])
 		
 
 	qtOcorrencias = ocorrencias.count()

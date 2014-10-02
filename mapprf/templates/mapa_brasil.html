@@ -20,6 +20,9 @@
       </span>
     </form>
     <input type='hidden' name='idDeConsulta' id='idDeConsulta' value='{{iden}}' />
+    <input type='hidden' name='diaValue' id='diaValue' value='ZZZ' />
+	<input type='hidden' name='horaValue' id='horaValue' value='ZZZ' />
+	<input type='hidden' name='mesValue' id='mesValue' value='ZZZ' />
 </div>
 {% endblock filters %}
 
@@ -34,6 +37,9 @@
 {% endblock featured %}
 
 {% block content %}
+	<button id="diaRetirarFiltro" onclick="fazerAjax('None','dia');">Dia</button>
+	<button id="horaRetirarFiltro" onclick="fazerAjax('None','hora');">Hora</button>
+	<button id="mesRetirarFiltro" onclick="fazerAjax('None','mes');">Mes</button>
 	<div class="row charts">
 		<div class="col-md-4">
 			{% include 'chart_line.html' with chartName="Acidentes por Horário" %}
@@ -67,11 +73,33 @@
       $(selector).chosen(config[selector]);
     }
 
-    function fazerAjax(id, filtro, tipo){
+    function fazerAjax(valor, tipo){
+
+    	if($('#'+tipo+'RetirarFiltro').is(":visible")) {
+			$('#'+tipo+'RetirarFiltro').hide();
+			$('#'+tipo+'Value').val('ZZZ');
+		} else{
+			texto = tipo.charAt(0).toUpperCase()+tipo.slice(1)+": "+valor;
+			$('#'+tipo+'RetirarFiltro').text(texto);
+			$('#'+tipo+'RetirarFiltro').show();
+			$('#'+tipo+'Value').val(valor);
+		}
+
+		dia = $('#diaValue').val();
+		hora = $('#horaValue').val();
+		mes = $('#mesValue').val();
+	
+		var id = $('#idDeConsulta').val();
+		if (id == "None")
+			id = "Brasil"
+
+		$('#diaRetirarFiltro').prop("disabled",true);
+		$('#horaRetirarFiltro').prop("disabled",true);
+		$('#mesRetirarFiltro').prop("disabled",true);
     	$.ajax({
 			type: "GET", 
 			url: "/mapprf/municipioAjax/", 
-			data: {"id":id, "filtro": filtro, "tipo": tipo},
+			data: {"id":id, "dia": dia, "hora": hora, "mes": mes},
 			success: function(resposta){ 
 				var obj = eval ("(" + resposta + ")");
 				chartDoughnut(obj.dia);
@@ -79,8 +107,15 @@
 				chartColumn(obj.mes);
 				$('.valueAcidentes').text(obj.acidentes);
 				$('.valueMortes').text(obj.mortes);
+
+				$('#diaRetirarFiltro').prop("disabled",false);
+				$('#horaRetirarFiltro').prop("disabled",false);
+				$('#mesRetirarFiltro').prop("disabled",false);
 			}
 		});
     }
-  </script>
+$('#diaRetirarFiltro').hide();
+$('#horaRetirarFiltro').hide();
+$('#mesRetirarFiltro').hide();
+</script>
 {% endblock scripts %}

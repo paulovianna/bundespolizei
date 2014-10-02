@@ -36,14 +36,10 @@ function chartLine(hora) {
 		},
 		data: [ {
 			click: function(e){
-				var id = $('#idDeConsulta').val();
-				
-				if (id == "None")
-					id = "Brasil"
 
 				hora = e.dataPoint.x;
 
-				fazerAjax(id, hora,"Hora");
+				fazerAjax(hora,"hora");
 			},
 	      	type: "line",
 	      	toolTipContent: "{x}h: {y} Acidentes",

@@ -29,9 +29,6 @@ function chartColumn(mes){
 		data: [
 		{
 			click: function(e){
-				var id = $('#idDeConsulta').val();
-				if (id == "None")
-					id = "Brasil"
 
 				mes = e.dataPoint.label;
 						
@@ -60,7 +57,7 @@ function chartColumn(mes){
 				else if(mes == "Dez")
 					mes = 12.0;
 					
-				fazerAjax(id, mes,"Mes");
+				fazerAjax(mes,"mes");
 						
 			},
 			dataPoints: dadosMes
