@@ -1,0 +1,19 @@
+//--- NAVBAR --//
+
+.navbar {
+	background: $color-default;
+	border-bottom: 1px solid darken($color-default, 10);
+	border-top: 1px solid lighten($color-default, 10);
+	margin: 10px 20px 10px 0;
+	@include border-radius(5px);
+
+}
+
+.navbar-fixed {
+	margin: 0;
+	position: fixed;
+	left: 0;
+	right: 0;
+	top: 0;
+	width: 100%;
+}

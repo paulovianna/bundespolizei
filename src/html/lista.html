@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block featured %}
+{% endblock %}
+
+{% block content %}
+<div class="col-12" id="filter-table">
+	<input class="pure-input-rounded search" type="text" name="search" id="search" placeholder="Filtrar os resultados...">
+	<table class="pure-table pure-table-bordered">
+		<thead>
+			<tr>
+				<th>#</th>
+				<th>{{ tipo }}</th>
+			</tr>
+		</thead>
+		<tbody class="list">
+			{% for d in dados %}
+				<tr class="{% cycle 'pure-table-odd' '' as oddrow %}">
+					<td class="num">{{forloop.counter}}</td>
+					<td class="description"><a href="{{ d.get_absolute_url }}">{{ d.get_name | default:"Não Encontrado" }}</a></td>
+				</tr>
+			{% empty %}
+				<tr>
+					<td colspan="2"> Nenhum Registro Encontrado </td>
+				</tr>
+
+			{% endfor %}
+		</tbody>
+	</table>
+</div>
+{% endblock %}
+
+{% block scripts %}
+	<script src="http://listjs.com/no-cdn/list.js"></script>
+	<script>
+		window.onload = function() {
+	    	var options = {
+				valueNames: ['num', 'description'],
+				indexAsync: false,
+				page: 99999,
+			};
+
+			var filterList = new List('filter-table', options);	  
+		};
+	</script>
+{% endblock %}

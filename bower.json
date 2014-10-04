@@ -22,8 +22,8 @@
     "test",
     "tests"
   ],
-  "dependencies": {
-    "jquery": "~2.0.3",
-    "sass-bootstrap": "~3.0.0"
+  "dependencies": {},
+  "devDependencies": {
+    "pure": "~0.3.0"
   }
 }

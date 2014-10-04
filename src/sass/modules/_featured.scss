@@ -1,0 +1,16 @@
+.featured {
+	background: $color-primary;
+	padding: $pad*2;
+}
+
+.featured-title {
+	font-size: 3em;
+	font-weight: 700;
+	color: $color-default;
+}
+
+.featured-subtitle {
+	font-size: 1.5em;
+	font-weight: 100;
+	color: $color-default;
+}

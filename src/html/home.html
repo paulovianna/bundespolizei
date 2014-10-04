@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}
+	GeoLiberty > Home
+{% endblock title %}
+
+{% block brand %}
+	GeoLiberty
+{% endblock brand %}
+
+{% block header-title %}
+	Home
+{% endblock header-title %}
+
+{% block featured-content %}
+<div class="featured-center">
+    <img src="/assets/img/logo.png" alt="Geoliberty Logo">
+</div>
+<div class="col-12">
+    <h1 class="featured-title">{% block page-header %}GeoLiberty{% endblock%}</h1>
+    <h3 class="featured-subtitle">{%block page-header-small%}Liberdade Cartográfica.{%endblock%}</h3>
+    <div class="pure-form search-group">
+        <input class="left-element" type="text" name="search" id="search" placeholder="Pesquise por cidade, estado ou país.">
+        <button class="pure-button secondary-button right-element">Search</button>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="col-12">
+		<div class="grid-pad">
+			<h2>Sobre</h2>
+			<p>Através da realização de estudos e projetos na área de armazenamento e manipulação de dados geográficos, notou-se a complexidade de se trabalhar com dados espaciais. A construção de funções que realizem o tratamento destes tipos de dados se mostra árdua. Para o desenvolvimento de sistemas de informações geográficas são necessárias diversas funções de tratamento de dados geográficos, o que torna o tempo e dificuldade de desenvolvimento de uma aplicação deste tipo muito maior.</p>
+
+			<p>Com estas conclusões iniciou-se o planejamento de uma ferramenta para auxílio na construção de SIGs, levando em consideração a dificuldade de implementação e a padronização que os dados geográficos apresentam, definiu-se que o sistema deveria implementar funções que realizassem a manipulação e armazenamento de dados geográficos, o usuário poderia então desenvolver a partir destas funções qualquer tipo de sistema e utilizando as funções já implementadas no trato de dados geográficos.</p>
+
+			<p>Para propiciar esta extensão de funcionalidades de um sistema base, foi definido que o paradigma de programação utilizado deveria ser o POO (Programação Orientada a Objetos), já que a mesma permite a construção de objetos que representariam os formatos de dados espaciais e ofereceriam as funções de tratamento relacionadas a cada tipo de dados específico. Utilizando este paradigma também se pode realizar a extensão de classes para a criação de novos objetos que utilizem os atributos e funções da classe mãe. Com isso, as classes que representarão objetos específicos criados pelo usuário do sistema, podem utilizar os atributos e funções do objeto geográfico que representa a informação de forma espacial.</p>
+		</div>
+	</div>
+</div>
+{% endblock content %}
+

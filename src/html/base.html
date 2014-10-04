@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <meta charset="utf-8" />
+
+    <!-- Always force latest IE rendering engine (even in intranet) & Chrome Frame
+    Remove this if you use the .htaccess -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+    <title>{% block title %}GeoLiberty{% endblock %}</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="GeoLiberty é um framework para criar aplicações baseadas em dados geográficos.">
+    <title>geoLiberty</title>
+    
+    <meta name="author" content="Guto Foletto" />
+    
+    <link rel="stylesheet" href="/assets/css/bundespolizei.min.css">
+    {% block styles %}{% endblock %}
+
+    <!-- Replace favicon.ico & apple-touch-icon.png in the root of your domain and delete these references -->
+    <link rel="shortcut icon" href="/assets/img/favicon.ico" />
+    <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png" />
+</head>
+<body>
+    <div class="push-menu">
+        <div class="sidebar sidebar-fixed sidebar-hidden" id="menu">
+            <div class="brand">
+                <a href="/">{% block brand %}GeoLiberty{% endblock %}</a>
+            </div>
+            <nav class="menu menu-vertical">
+                {% block menu %}
+                    {% block header-menu %}
+                    {% endblock header-menu %}
+                {% endblock menu %}
+                
+                {% block menu-geoliberty %}
+                <div class="menu-header">
+                    Mapas GeoLiberty
+                </div>
+                <ul class="menu-inner">
+                    <li class="menu-item">
+                        <a href="/paises/">Países</a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="/regioes/">Regiões</a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="/estados/">Estados</a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="/mesorregioes/">Mesorregiões</a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="/microrregioes/">Microrregiões</a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="/municipios/">Municípios</a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="/geopoliticas">Regiões Geopolíticas</a>
+                    </li>
+                </ul>
+                {% endblock menu-geoliberty %}
+            </nav>
+        </div>
+    </div>
+
+    <div class="content" id="content">
+        <div class="wrap">
+            <header class="header container">
+                <div class="col-1 header-menu-toggle omega">
+                    <a id="menu-toggle">MENU</a>
+                </div>
+                <div class="header-head">
+                    <h1 class="header-title">
+                        {% block header-title %}
+                            GeoLiberty
+                        {% endblock header-title %}
+                    </h1>
+                </div>
+            </header>
+
+            {% block featured %}
+            <section class="featured container">
+                {% block featured-content %}
+                {% endblock featured-content %}
+            </section>
+            {% endblock featured %}
+
+            <section class="container container-pad group">
+                {% block content %}
+                {% endblock %}
+                <div class="clear"></div>
+            </section>
+
+            <div class="push"></div>
+        </div>
+
+        <footer class="footer container">
+            <div class="col-6">
+                <nav class="menu menu-horizontal">
+                    <ul class="menu-inner">
+                        <li class="menu-item"><a href="/">Home</a></li>
+                        <li class="menu-item"><a href="/about">About</a></li>
+                        <li class="menu-item"><a href="/contact">Contact</a></li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="col-6">
+                {% block credits %}
+                <p class="credits">
+                    Developed by
+                    <a href="http://lattes.cnpq.br/4272110622915194" target="_blank">Guto Foletto</a>,
+                    <a href="http://lattes.cnpq.br/1647735520908049" target="_blank">Paulo Vianna</a> and 
+                    <a href="http://lattes.cnpq.br/3226063681432550" target="_blank">Joel da Silva</a>
+                </p>
+                {% endblock credits %}
+            </div>
+        </footer>  
+    </div>
+</body>
+{% block prescripts %}{% endblock prescripts %}
+<script type="text/javascript" src="/../assets/js/bundespolizei.min.js"></script>
+{% block scripts %}{% endblock %}
+</html>

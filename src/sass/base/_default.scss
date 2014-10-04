@@ -1,0 +1,37 @@
+//--- VARIABLES ---//
+
+@import "variables";
+
+
+//--- BASE STYLE ---//
+* {
+    @include box-sizing(border-box);
+}
+
+html, body {
+	font-size: $font-size;
+    font-family: sans-serif, verdana, arial;
+    height: 100%;
+}
+
+a {
+	text-decoration: none;
+	color: $color-primary;
+	cursor: pointer;
+	&:hover, &:active{
+		color: $color-default;
+	}
+
+	&:visited {
+		color: $color-primary-dark;
+	}
+}
+
+input {
+	width: 100%;
+}
+
+table {
+	width: 100%;
+}
+

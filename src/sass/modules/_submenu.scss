@@ -1,0 +1,49 @@
+.submenu {
+	width: 100%;
+}
+
+.submenu-inner {
+	margin: 0;
+	padding: 0;
+	a{
+		color: $color-primary;
+		display: inline-block;
+		padding: 0.7em;
+		text-decoration: none;
+
+		&:hover, &:active {
+			color: lighten($color-primary, 10);
+			background: darken($color-default, 5);
+			border-color: lighten($color-primary, 10);
+		}
+	}
+}
+
+//--- SUBMENU VERTICAL ---//
+
+.submenu-vertical {
+
+	.submenu-header {
+		color: darken($color-default-dark, 20);
+		padding: 1em;
+		border-bottom: 1px solid darken($color-default, 10);
+		text-transform: uppercase;
+	}
+
+	.submenu-item {
+		border-bottom: 1px solid darken($color-default, 10);
+		display: block;
+		&:last-of-type{
+			border-bottom: none;
+		}
+	}
+
+	.active {
+		border-left: 5px solid $color-primary;
+	}
+
+	a{
+		width: 100%;
+	}
+
+}

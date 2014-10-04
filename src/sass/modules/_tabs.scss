@@ -1,0 +1,35 @@
+@import "base/variables";
+
+.tabs {
+    border-bottom:1px solid #EEE;
+    .tabs-item{
+        a {
+            color: $color-default-dark;
+            display:inline-block;
+            padding: .5em;
+            border:1px solid #EEE;
+            border-bottom:0;
+            background: $color-default;
+            text-decoration:none;
+            @include border-corner-radius(top, left, $border-radius);
+            @include border-corner-radius(top, right, $border-radius);
+
+            &:hover, &:active {
+                color: $color-primary;
+            }
+        }
+
+        .is-selected {
+            color: $color-primary;
+            margin-bottom:-1px;
+            border-bottom:1px solid #FFF;
+            background:#FFF;
+        }
+    }
+}
+
+.tabs-horizontal{
+    .tabs-item {
+        display:inline;
+    }
+}

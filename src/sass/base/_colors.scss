@@ -1,0 +1,62 @@
+//--- DEFAULT COLOURS ---//
+
+// primary colour
+$color-primary 		: #1abc9c;
+$color-primary-dark : #16a085;
+
+// default colour
+$color-default 		: #Ecf0f1;
+$color-default-dark : #BDC3C7;
+
+// success colour
+$color-success 		: #2ecc71;
+$color-success-dark : #27ae60;
+
+// informarion colour
+$color-info 		: #3498db;
+$color-info-dark 	: #2980b9;
+
+// alert colour
+$color-alert 		: #f1c40f; 
+$color-alert-dark 	: #f39c12;
+
+// error colour
+$color-error 		: #e74c3c;
+$color-error-dark 	: #c0392b;
+
+
+//--- APP COLOURS ---//
+
+$color1 			: #FFE791; // sour pumpkin
+$color2 			: #98B087; // sage
+$color3 			: #5D7A85; // fade away
+$color4 			: #5F4F66; // the barrow downs
+$color5 			: #6B4346; // mirkwood
+
+$color-primary 		: $color-info;
+$color-primary-dark	: $color-info-dark;
+
+$white 				: #efefef;
+$grey-light 		: #efefef;
+$grey 				: #ddd;
+$grey-dark 			: #aaa;
+
+
+$body-text 			: $color4;
+$headings 			: $color5;
+$link 				: $color2;
+$link-hover 		: $color4;
+
+$nav-bg 			: $color3;
+$subnav-bg 			: $grey-light;
+$subnav-a-hover 	: $grey;
+
+$featured-bg		: $color-primary;
+
+$chart_red                 : #c24642;
+$chart_blue         : #6dbceb;
+$chart_turquise : #369ead;
+$chart_green         : #86b402;
+$chart_yellow         : #c8b631;
+$chart_purple         : #7f6084;
+$chart_orange         : #f79647;

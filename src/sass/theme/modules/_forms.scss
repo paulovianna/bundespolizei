@@ -1,0 +1,29 @@
+/* Search Box */
+
+.search-group{
+	width: 50%;
+	margin: 0 auto;	
+	.left-element{
+		@include border-corner-radius(top, right, 0);
+		@include border-corner-radius(bottom, right, 0);
+		width: 66%;
+	}
+	.right-element{
+		border-left: none;
+		width: 33%;
+	}
+}
+
+@media (max-width: 600px){
+	.search-group{
+		width: 100%;
+		margin: 0;
+		.left-element{
+			width: 100%;
+		}
+		.right-element{
+			width: 100%;
+		}
+
+	}
+}

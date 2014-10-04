@@ -1,0 +1,30 @@
+.header {
+	background:$color-default;
+	border-bottom: 1px solid darken($color-default, 10);
+}
+
+.header-title{
+	display: inline;
+	margin: 0;
+	line-height: 2em;
+	padding: 0 $pad;
+}
+
+.header-subtitle{
+	color: darken($color-default-dark, 10);
+}
+
+.header-menu-toggle{
+	background: darken($color-default, 10);
+	text-align: center;
+	a{
+		width: 100%;
+		display: inline-block;
+		line-height: 65px;
+		color: $color-default;
+		&:hover, &:active {
+			color: $color-default;
+			background: $color-default-dark;
+		}
+	}
+}
