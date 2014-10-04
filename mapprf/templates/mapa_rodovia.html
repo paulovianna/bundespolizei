@@ -22,10 +22,6 @@
         <button class="btn btn-default" type="submit">Buscar</button>
       </span>
     </form>
-    <input type='hidden' name='idDeConsulta' id='idDeConsulta' value='{{iden}}' />
-    <input type='hidden' name='diaValue' id='diaValue' value='ZZZ' />
-    <input type='hidden' name='horaValue' id='horaValue' value='ZZZ' />
-    <input type='hidden' name='mesValue' id='mesValue' value='ZZZ' />
 </div>
 {% endblock filters %}
 
@@ -196,10 +192,11 @@ for (var i = 0; i < linhas.length; i++) {
 			if ((l.getPath().getArray())[0].equals(coordenada[j][1]) ){
 				id = coordenada[j][0];
 				$('#idDeConsulta').val(id);
+				br = $('#numeroBR').val();
 				$.ajax({
 				type: "GET", 
 				url: "/mapprf/segmento/", 
-				data: "id="+id, 
+				data: {"br": br, "id":id},
 				success: function(resposta){ 
 					var obj = eval ("(" + resposta + ")");
 					chartDoughnut(obj.dia);

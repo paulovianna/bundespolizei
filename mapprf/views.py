@@ -72,7 +72,6 @@ def ocorrenciasMunicipio(request,cod):
 	
 
 	identificador = cod
-	print identificador
 
 	for d in diaDaSemana:
 		porc = (100 * d['valor']) / qtOcorrencias
@@ -98,8 +97,10 @@ def ocorrenciasMunicipio(request,cod):
 
 def ocorrenciasSegmento(request):	
 	cod = request.GET.get('id')
+	br = request.GET.get('br')
+	
 	segmento = PrfRodovias.objects.get(id=cod)
-	ocorrencias = Ocorrencias.objects.filter(id_local__br=386,id_local__km__range=(segmento.kmi,segmento.kmf))
+	ocorrencias = Ocorrencias.objects.filter(id_local__br=br,id_local__km__range=(segmento.kmi,segmento.kmf))
 	qtOcorrencias = ocorrencias.count()
 	mortes = ocorrencias.filter(ocorrenciapessoa__id_pessoa__id_estado_fisico=4).count()
 	diaDaSemana = ocorrencias.extra(select={'nome':'id_dia_semana'}).values('nome','id_dia_semana__dia_da_semana').order_by().annotate(valor=Count('id_dia_semana'))
