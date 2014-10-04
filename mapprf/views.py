@@ -5,7 +5,7 @@ from django.http import HttpResponse
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.core.context_processors import csrf
-from django.utils import simplejson
+import simplejson
 from django.db.models import Max
 from mapprf.models import Ocorrencias, PrfRodovias, Local
 from geoliberty.models import Municipio, Regiao, Uf, Pais
@@ -215,18 +215,28 @@ def ocorrenciasMunicipioAjax(request):
 
 @cache_page(3600 * 24)
 def ocorrenciasRodovia(request,cod=386):
-	codigo = str(cod) + 'BR'
-	rodovia = PrfRodovias.objects.filter(codigo__contains=codigo)
+	if request.method == 'POST':
+		cod = request.POST.get('idBr')
+	codigo = str(cod)
+	rodovia = PrfRodovias.objects.filter(codigo__startswith=codigo)
 	maior = 0
 	for a in rodovia:
 		count = Ocorrencias.objects.filter(id_local__br=cod,id_local__km__range=(a.kmi,a.kmf)).count()
-		media = count / (a.kmf - a.kmi)
+		if((a.kmf - a.kmi) == 0 ):
+			media = 1
+		else:
+			media = count / (a.kmf - a.kmi)
 		if media > maior:
 			maior = media
 	for a in rodovia:
 		ocorrenciasSeg = Ocorrencias.objects.filter(id_local__br=cod,id_local__km__range=(a.kmi,a.kmf))
 		count = ocorrenciasSeg.count()
-		media = count / (a.kmf - a.kmi)
+		if((a.kmf - a.kmi) == 0 ):
+			media = 1
+		else:
+			media = count / (a.kmf - a.kmi)
+		if(maior == 0):
+			maior = 1
 		porc = (100 * media) / maior
 		if (porc >= 0) and (porc < 20):
 			a.cor = '#369EAD'
@@ -240,7 +250,7 @@ def ocorrenciasRodovia(request,cod=386):
 			a.cor = '#C24642'
 		a.ocorrencias = count
 		a.mortes = ocorrenciasSeg.filter(ocorrenciapessoa__id_pessoa__id_estado_fisico=4).count()
-
+	brs = Local.objects.values('br').order_by('br').distinct()
 	ocorrencias = Ocorrencias.objects.filter(id_local__br=cod)
 	pontos = Local.objects.filter(br=cod, ocorrencias__ocorrenciapessoa__id_pessoa__id_estado_fisico=4)
 	qtOcorrencias = ocorrencias.count()
@@ -269,7 +279,9 @@ def ocorrenciasRodovia(request,cod=386):
                                                       'mes':mes,
                                                       'hora':hora,
                                                       'rodovia':rodovia,
-                                                      'pontos':pontos}))
+                                                      'pontos':pontos,
+                                                      'cod':cod,
+                                                      'brs':brs}))
 
 
 

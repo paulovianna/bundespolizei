@@ -1,15 +1,36 @@
 {% extends 'mapprf.html' %}
 {% load replace_tag %}
 {% block title %}
-	mapPRF > BR386
+    mapPRF > BR{{ cod }}
 {% endblock title %}
 
 {% block header-title %}
-	Mapa BR386
+    Mapa BR{{ cod }}
 {% endblock header-title %}
 
+{% block filters %}
+<div class="input-group">
+    <form action="/mapprf/rodovia/" method="POST">
+    {% csrf_token %}
+      <select id="idBr" name="idBr" data-placeholder="Escolha a Cidade" class="chosen-select form-control" tabindex="2" style="display:inline-block;">
+      <option value="" selected > Selecione uma BR</option> 
+        {% for br in brs %}
+            <option value="{{ br.br }}"> {{ br.br }}</option> 
+        {% endfor %}
+      </select>
+      <span class="input-group-btn" style="display:inline-block">
+        <button class="btn btn-default" type="submit">Buscar</button>
+      </span>
+    </form>
+    <input type='hidden' name='idDeConsulta' id='idDeConsulta' value='{{iden}}' />
+    <input type='hidden' name='diaValue' id='diaValue' value='ZZZ' />
+    <input type='hidden' name='horaValue' id='horaValue' value='ZZZ' />
+    <input type='hidden' name='mesValue' id='mesValue' value='ZZZ' />
+</div>
+{% endblock filters %}
+
 {% block featured %}
-<input type='hidden' name='numeroBR' id='numeroBR' value='386' />
+<input type='hidden' name='numeroBR' id='numeroBR' value='{{ cod }}' />
 <input type='hidden' name='idDeConsulta' id='idDeConsulta' value='None' />
 <input type='hidden' name='diaValue' id='diaValue' value='ZZZ' />
 <input type='hidden' name='horaValue' id='horaValue' value='ZZZ' />
@@ -56,10 +77,11 @@
 <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCoPgKjGBqZDtxdR7Rqs0U5f8eoACacb2E&sensor=true"></script>
 <script>
 	var mapOptions = {
-    zoom: 7,
-    center: new google.maps.LatLng(-28.526622,-52.839661),
-    mapTypeId: google.maps.MapTypeId.ROADMAP
-  }
+        scrollwheel: false,
+        zoom: 7,
+        center: new google.maps.LatLng(-28.526622,-52.839661),
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+      }
   var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
 
 
@@ -110,19 +132,21 @@
  }
 </script>
 <script>
-var pontos = [{% for a in pontos %}
-	new google.maps.LatLng({{ a.geo.1|replace }} {{ "," }} {{ a.geo.0|replace }}) {% if forloop.last %} {% else %},{% endif %}{% endfor %}
-];
+{% if cod == 386 %}
+    var pontos = [{% for a in pontos %}
+        new google.maps.LatLng({{ a.geo.1|replace }} {{ "," }} {{ a.geo.0|replace }}) {% if forloop.last %} {% else %},{% endif %}{% endfor %}
+    ];
 
-var ponto = new Array();
-for (var i = 0; i < pontos.length; i++) {
-	ponto[i] = new google.maps.Marker({
-		position: pontos[i],
-		icon: '/assets/img/marker_deaths.png',
-		map: map,
-		title: 'Ocorrencia resultada em Óbito'
-	});
-}
+    var ponto = new Array();
+    for (var i = 0; i < pontos.length; i++) {
+        ponto[i] = new google.maps.Marker({
+            position: pontos[i],
+            icon: '/assets/img/marker_deaths.png',
+            map: map,
+            title: 'Ocorrencia resultada em Óbito'
+        });
+    }
+{% endif %}
 
 var coordenada = [{% for a in rodovia %}
     ["{{ a.id }}" , {% for b in a.geometry %}{% if forloop.first %} new google.maps.LatLng({{ b.1|replace }} {{ "," }} {{ b.0|replace }}), {% endif %}{% endfor %}"{{ a.cor }}","{{ a.ocorrencias }}","{{ a.mortes }}"{% if forloop.last %}]	{% else %}],{% endif %} {% endfor %}
@@ -131,7 +155,7 @@ var coordenada = [{% for a in rodovia %}
 var linhas = new Array({% for a in rodovia %}
 	[{% for b in a.geometry %}{% if forloop.last %}new google.maps.LatLng({{ b.1|replace }} {{ "," }} {{ b.0|replace }}){% else %}new google.maps.LatLng({{ b.1|replace}} {{ "," }} {{ b.0|replace }}),{% endif %}{% endfor %}{% if forloop.last %}]{% else %}],{% endif %}{% endfor %}
 );
-
+map.setCenter(coordenada[0][1]);
 var linha = new Array();
 for (var i = 0; i < linhas.length; i++) {
 	linha[i] = new google.maps.Polyline({
@@ -195,6 +219,17 @@ for (var i = 0; i < linhas.length; i++) {
 
 	linha[i].setMap(map);
 }
+
+var config = {
+      '.chosen-select'           : {},
+      '.chosen-select-deselect'  : {allow_single_deselect:true},
+      '.chosen-select-no-single' : {disable_search_threshold:10},
+      '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
+      '.chosen-select-width'     : {width:"95%"}
+    }
+    for (var selector in config) {
+      $(selector).chosen(config[selector]);
+    }
 
 function fazerAjax(valor, tipo){
 
