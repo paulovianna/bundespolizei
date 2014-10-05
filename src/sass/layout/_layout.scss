@@ -35,6 +35,20 @@
 	//margin: 0 auto -100px;
 }
 
+.header {
+	@media (min-width: 1024px){
+		padding-right: 20px;
+	}
+	.button-search {
+		height: 42px;
+		width: 100%;
+	}
+}
+
+.header-search {
+	padding-top: 10px;
+}
+
 .push, .footer{
 	//min-height: 100px;
 }
@@ -47,5 +61,5 @@
 }
 
 .credits{
-	
+
 }

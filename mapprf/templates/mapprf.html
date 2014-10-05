@@ -14,70 +14,95 @@
 
 {% block analytics %}
 <script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-  ga('create', 'UA-41928071-2', '200.132.38.35');
-  ga('send', 'pageview');
+	ga('create', 'UA-41928071-2', '200.132.38.35');
+	ga('send', 'pageview');
 </script>
 {% endblock %}
-{% block header-menu %}
-	Menu mapPRF	
-{% endblock header-menu %}
 
 {% block menu %}
-	<a href="/mapprf/" class="list-group-item">Inicio</a>
-	<a href="/mapprf/municipio/" class="list-group-item">Índice Municípios</a>
-	<a href="/mapprf/rodovia" class="list-group-item">Mapa BR386</a>
-	<a href="/mapprf/docs" class="list-group-item">Documentação</a>
+	{% block header-menu %}
+		<div class="menu-header">
+			Menu
+		</div>
+	{% endblock header-menu %}
+	<ul class="menu-inner">
+		<li class="menu-item"><a href="/mapprf/" class="list-group-item">Inicio</a></li>
+		<li class="menu-item"><a href="/mapprf/municipio/" class="list-group-item">Índice Municípios</a></li>
+		<li class="menu-item"><a href="/mapprf/rodovia" class="list-group-item">Mapa BR386</a></li>
+		<li class="menu-item"><a href="/mapprf/docs" class="list-group-item">Documentação</a></li>
+	</ul>
 {% endblock menu %}
 
-{% block featured %}
-
-{% endblock featured %}	
+{% block featured-content %}
+<div class="featured-center">
+	<img src="/assets/img/logo.png" alt="Geoliberty Logo">
+</div>
+<div class="col-12">
+	<h1 class="featured-title">{% block page-header %}mapPRF{% endblock%}</h1>
+	<h3 class="featured-subtitle">{%block page-header-small%}Índices de Estrada{%endblock%}</h3>
+	<div class="pure-form search-group">
+		<form action="/mapprf/pesquisar/" method="get">
+			{% csrf_token %}
+			<input class="left-element" type="text" name="search" id="search" placeholder="Pesquise por cidade, estado ou país.">
+			<button class="pure-button secondary-button right-element">Search</button>
+		</form>
+	</div>
+</div>
+{% endblock featured-content %}
 
 {% block content %}
-	
-			<div class="row">
-				<div class="col-md-4">
+			<div class="col-4">
+				<div class="grid-pad">
 					<h2>Sobre</h2>
 					<p>
-						O Aplicativo <a href="http://200.132.38.35/mapprf/">MapPRF</a> - Mapeamento de Ocorrências da Polícia Rodoviária Federal foi desenvolvido no âmbito do <a href="http://www.w3c.br/Home/ConcursoAplicativos">2° Concurso para Dados Abertos</a> do Ministério da Justiça & W3C Brasil. 
+						O Aplicativo <a href="http://200.132.38.35/mapprf/">MapPRF</a> - Mapeamento de Ocorrências da Polícia Rodoviária Federal foi desenvolvido no âmbito do <a href="http://www.w3c.br/Home/ConcursoAplicativos">2° Concurso para Dados Abertos</a> do Ministério da Justiça & W3C Brasil.
 						Além da análise de dados, o MapPRF permite que usuários com perfil de administrador possam realizar a manutenção e atualização de dados.
 
 					</p>
 				</div>
+			</div>
 
-				<div class="col-md-4"> 
+			<div class="col-4">
+				<div class="grid-pad">
 					<h2>Observações</h2>
 					<p>
-						Para poder acessar os recursos da aplicação, clique no menu localizado no canto superior esquerdo da aplicação (MapPRF).	
+						Para poder acessar os recursos da aplicação, clique no menu localizado no canto superior esquerdo da aplicação (MapPRF).
 					</p>
 				</div>
+			</div>
 
-				<div class="col-md-4">
+			<div class="col-4">
+				<div class="grid-pad">
 					<h2>Documentação</h2>
 					<p>
 						Para maiores informações em questão do desenvolvimento do aplicativo, a mesma poderá ser acessada através do seguinte link (<a href="https://docs.google.com/document/d/1iJo6bl_j3o6ReNH57MKj51gm592a-jFNEMp3_Fri-n8/">Clique Aqui</a>).
 					</p>
 					<p>
 						O repositório oficial do projeto pode ser encontrado neste endereço:
-						<a href="https://github.com/PauloHenriqueVianna/bundespolizei">Github MapPRF</a>
+						<a href="https://github.com/paulovianna/bundespolizei">Github MapPRF</a>
 					</p>
 				</div>
-
 			</div>
-		
-			{% endblock content %}
+{% endblock content %}
+
+{% block footer %}
+<li class="menu-item"><a href="/">Início</a></li>
+<li class="menu-item"><a href="/municipio">Índice Municípios</a></li>
+<li class="menu-item"><a href="/rodovia">Indíces das BRs</a></li>
+<li class="menu-item"><a href="/docs">Documentação</a></li>
+{% endblock footer %}
 
 {% block credits %}
 <p>
-	Desenvolvimento por 
+	Desenvolvimento por
 	<a href="https://www.facebook.com/augustoll" target="_blank">Augusto de Lima</a>,
 	<a href="http://about.me/gutofoletto" target="_blank">Guto Foletto</a>,
-	<a href="https://github.com/PauloHenriqueVianna" target="_blank">Paulo Henrique Vianna</a>,
+	<a href="https://github.com/paulovianna" target="_blank">Paulo Henrique Vianna</a>,
 	<a href="http://about.me/vinibiso" target="_blank">Vinicius Bisognin Immich</a>.
 </p>
 <p>

@@ -27,7 +27,7 @@ module.exports = function(grunt) {
                     keepSpecialComments: 0
                 },
                 files:{
-                    'assets/css/<%= pkg.name %>.min.css': ['assets/css/truss.css']
+                    'assets/css/<%= pkg.name %>.min.css': ['src/css/truss.css']
                 }
             }
         },
@@ -36,7 +36,12 @@ module.exports = function(grunt) {
         // Concat will join JS files into one.
         concat: {
             js:{
-                src: 'src/js/*.js',
+                src: [
+                    'src/js/jquery.js',
+                    'src/js/menu.js',
+                    'src/js/canvasjs.min.js',
+                    'src/js/selectize.js'
+                ],
                 dest: 'assets/js/<%= pkg.name %>.js'
             }
         },
@@ -79,7 +84,6 @@ module.exports = function(grunt) {
                 files: {
                     'geoliberty/templates/home.html' : 'src/html/home.html',
                     'geoliberty/templates/base.html' : 'src/html/base.html',
-                    'geoliberty/templates/inicio.html' : 'src/html/inicio.html',
                     'geoliberty/templates/lista.html' : 'src/html/lista.html',
                     'geoliberty/templates/mapa.html' : 'src/html/mapa.html',
                     'geoliberty/templates/regiao_geopolitica.html' : 'src/html/regiao_geopolitica.html',

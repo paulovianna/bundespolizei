@@ -12,11 +12,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="GeoLiberty é um framework para criar aplicações baseadas em dados geográficos.">
     <title>geoLiberty</title>
-    
+
     <meta name="author" content="Guto Foletto" />
-    
+
     <link rel="stylesheet" href="/assets/css/bundespolizei.min.css">
     {% block styles %}{% endblock %}
+    {% block analytics %}{% endblock %}
 
     <!-- Replace favicon.ico & apple-touch-icon.png in the root of your domain and delete these references -->
     <link rel="shortcut icon" href="/assets/img/favicon.ico" />
@@ -33,7 +34,7 @@
                     {% block header-menu %}
                     {% endblock header-menu %}
                 {% endblock menu %}
-                
+
                 {% block menu-geoliberty %}
                 <div class="menu-header">
                     Mapas GeoLiberty
@@ -72,12 +73,16 @@
                 <div class="col-1 header-menu-toggle omega">
                     <a id="menu-toggle">MENU</a>
                 </div>
-                <div class="header-head">
+                <div class="header-head col-7">
                     <h1 class="header-title">
                         {% block header-title %}
                             GeoLiberty
                         {% endblock header-title %}
                     </h1>
+                </div>
+                <div class="header-search col-4">
+                    {% block filters %}
+                    {% endblock filters %}
                 </div>
             </header>
 
@@ -101,9 +106,11 @@
             <div class="col-6">
                 <nav class="menu menu-horizontal">
                     <ul class="menu-inner">
+                        {% block footer %}
                         <li class="menu-item"><a href="/">Home</a></li>
-                        <li class="menu-item"><a href="/about">About</a></li>
-                        <li class="menu-item"><a href="/contact">Contact</a></li>
+                        <li class="menu-item"><a href="/about">Sobre</a></li>
+                        <li class="menu-item"><a href="/contact">Contato</a></li>
+                        {% endblock footer %}
                     </ul>
                 </nav>
             </div>
@@ -112,15 +119,16 @@
                 <p class="credits">
                     Developed by
                     <a href="http://lattes.cnpq.br/4272110622915194" target="_blank">Guto Foletto</a>,
-                    <a href="http://lattes.cnpq.br/1647735520908049" target="_blank">Paulo Vianna</a> and 
+                    <a href="http://lattes.cnpq.br/1647735520908049" target="_blank">Paulo Vianna</a> and
                     <a href="http://lattes.cnpq.br/3226063681432550" target="_blank">Joel da Silva</a>
                 </p>
                 {% endblock credits %}
             </div>
-        </footer>  
+        </footer>
     </div>
 </body>
 {% block prescripts %}{% endblock prescripts %}
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.1/jquery.min.js"></script>
 <script type="text/javascript" src="/../assets/js/bundespolizei.min.js"></script>
 {% block scripts %}{% endblock %}
 </html>

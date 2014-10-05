@@ -12,63 +12,71 @@
 <div class="input-group">
     <form action="/mapprf/rodovia/" method="POST">
     {% csrf_token %}
-      <select id="idBr" name="idBr" data-placeholder="Escolha a Cidade" class="chosen-select form-control" tabindex="2" style="display:inline-block;">
-      <option value="" selected > Selecione uma BR</option> 
+      <select id="idBr" name="idBr" placeholder="Escolha a rodovia" class="col-8" tabindex>
+      <option value="" selected > Selecione uma BR</option>
         {% for br in brs %}
-            <option value="{{ br.br }}"> {{ br.br }}</option> 
+            <option value="{{ br.br }}"> {{ br.br }}</option>
         {% endfor %}
       </select>
-      <span class="input-group-btn" style="display:inline-block">
-        <button class="btn btn-default" type="submit">Buscar</button>
+      <span class="col-4">
+          <button class="pure-button pure-button-primary button-search" type="submit">Buscar</button>
       </span>
     </form>
 </div>
 {% endblock filters %}
 
 {% block featured %}
-<input type='hidden' name='numeroBR' id='numeroBR' value='{{ cod }}' />
-<input type='hidden' name='idDeConsulta' id='idDeConsulta' value='None' />
-<input type='hidden' name='diaValue' id='diaValue' value='ZZZ' />
-<input type='hidden' name='horaValue' id='horaValue' value='ZZZ' />
-<input type='hidden' name='mesValue' id='mesValue' value='ZZZ' />
-<div class="row featured">
-<div class="col-md-12 map">
-	<div id="map-canvas" style="width: 100%; height: 300px"></div>
-</div>
-<div class="col-md-12"><h5>*Clique em um trecho no mapa para filtrar os resultados</h5></div>
-</div>
-<div class="row featured">
-	{% include 'chart_numberAcidentes.html' with chartName="Acidentes" icon="acidentes" value=ocorrencias %}
-	{% include 'chart_numberMortes.html' with chartName="Mortes em Acidentes" icon="mortes" value=mortes %}
-</div>
+    <input type='hidden' name='numeroBR' id='numeroBR' value='{{ cod }}' />
+    <input type='hidden' name='idDeConsulta' id='idDeConsulta' value='None' />
+    <input type='hidden' name='diaValue' id='diaValue' value='ZZZ' />
+    <input type='hidden' name='horaValue' id='horaValue' value='ZZZ' />
+    <input type='hidden' name='mesValue' id='mesValue' value='ZZZ' />
+    <div class="map">
+        <div id="map-canvas" style="width: 100%; height: 300px"></div>
+    </div>
+    <div class="col-12">
+        <p>*Clique em um trecho no mapa para filtrar os resultados</p>
+    </div>
 {% endblock featured %}
 
 {% block content %}
-	<button id="diaRetirarFiltro" onclick="fazerAjax('None','dia');">Dia</button>
-	<button id="horaRetirarFiltro" onclick="fazerAjax('None','hora');">Hora</button>
-	<button id="mesRetirarFiltro" onclick="fazerAjax('None','mes');">Mes</button>
-	<div class="row featured">
-		<div class="col-md-4">
-			{% include 'chart_line.html' with chartName='Acidentes por Horário' %}	
-		</div>
-		<div class="col-md-4">
-			{% include 'chart_doughnut.html' with chartName='Acidentes por dia da Semana' %}				
-		</div>
-		<div class="col-md-4">
-			{% include 'chart_column.html' with chartName='Acidentes por Mês' %}	
-		</div>
+    <div class="col-12">
+        {% include 'chart_number.html' with chartName="Acidentes" icon="acidentes" value=ocorrencias %}
+        {% include 'chart_number.html' with chartName="Mortes em Acidentes" icon="mortes" value=mortes %}
+    </div>
+    <div class="col-12">
+        <button id="diaRetirarFiltro" onclick="fazerAjax('None','dia');">Dia</button>
+        <button id="horaRetirarFiltro" onclick="fazerAjax('None','hora');">Hora</button>
+        <button id="mesRetirarFiltro" onclick="fazerAjax('None','mes');">Mes</button>
+    </div>
+	<div class="col-4">
+		{% include 'chart_line.html' with chartName='Acidentes por Horário' %}
+	</div>
+	<div class="col-4">
+		{% include 'chart_doughnut.html' with chartName='Acidentes por dia da Semana' %}
+	</div>
+	<div class="col-4">
+		{% include 'chart_column.html' with chartName='Acidentes por Mês' %}
 	</div>
 {% endblock content %}
+
 {% block prescript %}
 
 {% endblock prescript %}
 
 {% block scripts %}
-
 <script>
 	chartLine(null);
 	chartDoughnut(null);
 	chartColumn(null);
+
+    $('#diaRetirarFiltro').hide();
+    $('#horaRetirarFiltro').hide();
+    $('#mesRetirarFiltro').hide();
+
+    $('#idBr').selectize({
+        sortField: 'text'
+    });
 </script>
 <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCoPgKjGBqZDtxdR7Rqs0U5f8eoACacb2E&sensor=true"></script>
 <script>
@@ -84,13 +92,13 @@
  // Initialize the layer
    var layer = new google.maps.FusionTablesLayer();
    layer.setMap(map);
-   
+
    // Create the legend and display on the map
    var legendDiv = document.createElement('DIV');
    var legend = new Legend(legendDiv, map);
    legendDiv.index = 1;
    map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(legendDiv);
- 
+
 
  function Legend(controlDiv, map) {
    // Set CSS styles for the DIV containing the control
@@ -112,7 +120,7 @@
    controlText.style.fontSize = '12px';
    controlText.style.paddingLeft = '4px';
    controlText.style.paddingRight = '4px';
-   
+
    // Add the text
    controlText.innerHTML = '<h5>Legenda</h5>' +
    '<ul class="legendas">' +
@@ -194,10 +202,10 @@ for (var i = 0; i < linhas.length; i++) {
 				$('#idDeConsulta').val(id);
 				br = $('#numeroBR').val();
 				$.ajax({
-				type: "GET", 
-				url: "/mapprf/segmento/", 
+				type: "GET",
+				url: "/mapprf/segmento/",
 				data: {"br": br, "id":id},
-				success: function(resposta){ 
+				success: function(resposta){
 					var obj = eval ("(" + resposta + ")");
 					chartDoughnut(obj.dia);
 					chartLine(obj.hora);
@@ -216,17 +224,6 @@ for (var i = 0; i < linhas.length; i++) {
 
 	linha[i].setMap(map);
 }
-
-var config = {
-      '.chosen-select'           : {},
-      '.chosen-select-deselect'  : {allow_single_deselect:true},
-      '.chosen-select-no-single' : {disable_search_threshold:10},
-      '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
-      '.chosen-select-width'     : {width:"95%"}
-    }
-    for (var selector in config) {
-      $(selector).chosen(config[selector]);
-    }
 
 function fazerAjax(valor, tipo){
 
@@ -255,25 +252,25 @@ function fazerAjax(valor, tipo){
 	$('#horaRetirarFiltro').prop("disabled",true);
 	$('#mesRetirarFiltro').prop("disabled",true);
     	$.ajax({
-			type: "GET", 
-			url: "/mapprf/rodoviaAjax/", 
+			type: "GET",
+			url: "/mapprf/rodoviaAjax/",
 			data: {"br": br, "id":id, "dia": dia, "hora": hora, "mes": mes},
-			success: function(resposta){ 
+			success: function(resposta){
 			var obj = eval ("(" + resposta + ")");
 				chartDoughnut(obj.dia);
 				chartLine(obj.hora);
 				chartColumn(obj.mes);
 				$('.valueAcidentes').text(obj.acidentes);
 				$('.valueMortes').text(obj.mortes);
-				
+
 				$('#diaRetirarFiltro').prop("disabled",false);
 				$('#horaRetirarFiltro').prop("disabled",false);
 				$('#mesRetirarFiltro').prop("disabled",false);
 			}
 		});
 }
+</script>
+<script>
 
-$('#diaRetirarFiltro').hide();
-$('#horaRetirarFiltro').hide();
-$('#mesRetirarFiltro').hide();
-</script>{% endblock scripts %}
+</script>
+{% endblock scripts %}
