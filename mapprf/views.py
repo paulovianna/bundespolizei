@@ -214,8 +214,11 @@ def ocorrenciasMunicipioAjax(request):
 
 	return HttpResponse(data_json)
 
+@ensure_csrf_cookie
 @cache_page(3600 * 24)
 def ocorrenciasRodovia(request,cod=386):
+	ctoken = {}
+	ctoken.update(csrf(request))
 	if request.method == 'POST':
 		cod = request.POST.get('idBr')
 	codigo = str(cod)
