@@ -39,7 +39,7 @@
 				{% for c in cidades %}
 				<tr>
 					<td>{{ forloop.counter }}</td>
-					<td><a href="../{{ c.get_absolute_url }}">{{ c.get_name | default:"Sem nome" }}</td>
+					<td><a href="/mapprf/municipio/{{ c.codPrf }}/">{{ c.get_name | default:"Sem nome" }}</td>
 				</tr>
 				{% empty %}
 				<tr>

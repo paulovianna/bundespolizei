@@ -5,10 +5,11 @@
 {% endblock title %}
 
 {% block header-title %}
-	Índice Municípios
+	{{ nome | default:"Índice Municípios" }}
 {% endblock header-title %}
 
 {% block filters %}
+
 <div class="pure-form">
 	<form action="/mapprf/municipio/" method="post">
 		{% csrf_token %}
@@ -34,6 +35,11 @@
 {% endblock featured %}
 
 {% block content %}
+    <div class="col-12">
+        <button id="diaRetirarFiltro" onclick="fazerAjax('None','dia');">Dia</button>
+        <button id="horaRetirarFiltro" onclick="fazerAjax('None','hora');">Hora</button>
+        <button id="mesRetirarFiltro" onclick="fazerAjax('None','mes');">Mes</button>
+    </div>
 <div class="col-4">
 	{% include 'chart_line.html' with chartName="Acidentes por Horário" %}
 </div>

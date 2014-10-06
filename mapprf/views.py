@@ -68,8 +68,8 @@ def ocorrenciasMunicipio(request,cod):
 	diaDaSemana = ocorrencias.extra(select={'nome':'id_dia_semana'}).values('nome','id_dia_semana__dia_da_semana').order_by().annotate(valor=Count('id_dia_semana'))
 	mes = ocorrencias.extra(select={'nome':'extract(month from data)'}).values('nome').order_by('nome').annotate(valor=Count('data'))
 	hora = ocorrencias.extra(select={'nome':'extract(hour from data)'}).values('nome').order_by('nome').annotate(valor=Count('data'))
-
-
+	nomeMunicipio = Municipio.objects.filter(codPrf=cod)
+	nomeMunicipio = nomeMunicipio[0].municipio
 	identificador = cod
 
 	for d in diaDaSemana:
@@ -91,7 +91,8 @@ def ocorrenciasMunicipio(request,cod):
                                                       'mortes': mortes,
                                                       'diaDaSemana':diaDaSemana,
                                                       'mes':mes,
-                                                      'hora':hora}))
+                                                      'hora':hora,
+                                                      'nome':nomeMunicipio}))
 
 
 def ocorrenciasSegmento(request):
@@ -145,7 +146,7 @@ def pesquisa(request):
 	regioes = Regiao.objects.filter(regiao__icontains=string)
 	estados = Uf.objects.filter(uf__icontains=string);
 	paises = Pais.objects.filter(pais__icontains=string);
-
+	
 	return render_to_response('resultados.html',
                               RequestContext(request,{'string':string,
                               						  'cidades':cidades,
