@@ -20,7 +20,7 @@
 <div class="col-6">
 	<h2>Documentação</h2>
 	<p>
-		O Aplicativo <a href="http://200.132.38.35/mapprf/">MapPRF</a> - Mapeamento de Ocorrências da Polícia Rodoviária Federal foi desenvolvido no âmbito do <a href="http://www.w3c.br/Home/ConcursoAplicativos">2° Concurso para Dados Abertos</a> do Ministério da Justiça & W3C Brasil.  Este concurso aconteceu através de uma parceria estabelecida entre o Ministério da Justiça (Secretaria Executiva e Departamento da Polícia Rodoviária Federal), a Controladoria-Geral da União e o Ministério do Planejamento, Orçamento e Gestão (SLTI) tendo como referência a base de dados do Sistema de Informações Gerenciais (SIGER), mantida pelo Departamento de Polícia Rodoviária Federal.
+		O Aplicativo <a href="http://200.132.38.42/mapprf/">MapPRF</a> - Mapeamento de Ocorrências da Polícia Rodoviária Federal foi desenvolvido no âmbito do <a href="http://www.w3c.br/Home/ConcursoAplicativos">2° Concurso para Dados Abertos</a> do Ministério da Justiça & W3C Brasil.  Este concurso aconteceu através de uma parceria estabelecida entre o Ministério da Justiça (Secretaria Executiva e Departamento da Polícia Rodoviária Federal), a Controladoria-Geral da União e o Ministério do Planejamento, Orçamento e Gestão (SLTI) tendo como referência a base de dados do Sistema de Informações Gerenciais (SIGER), mantida pelo Departamento de Polícia Rodoviária Federal.
 	</p>
 	<p>
 		Para participar do <a href="http://www.sbti2014.ifal.edu.br/">I Concurso Apps.Gov – SBTI 2014</a> a aplicação sofreu mudanças no layout além de possuir outras <i>features</i>:
@@ -39,7 +39,7 @@
 		Neste momento, no MapPRF estão disponíveis para análise os dados de acidentes registrados durante os anos de 2011, 2012 e primeiro semestre de 2013. Estes dados  podem ser analisados através de mapas e gráficos interativos, conforme pode ser visualizado abaixo:
 		<br>
 
-		<img class="ss-docs" src="https://lh4.googleusercontent.com/-rnwwBe1BG2k/UmsrXKD83jI/AAAAAAAAFo4/zGSmQTUsbZk/w1044-h495-no/inicio.png" alt="Página Inicial da Aplicação" title="Página Inicial da Aplicação">
+		<img class="ss-docs" src="https://lh5.googleusercontent.com/-s5Fl7iTa1eE/VDIJT_fprdI/AAAAAAAAGAU/fXOi08zhKew/w929-h553-no/inicio.png" alt="Página Inicial da Aplicação" title="Página Inicial da Aplicação">
 		<br>
 		Figura 1: Página Inicial da Aplicação
 
@@ -52,31 +52,50 @@
 
 	</p>
 	<p>
-		Por questões de minimização de escopo, dificuldades no tratamento de inconsistências e na integração entre as diferentes bases de dados, para algumas análises, o MapPRF disponibiliza consultas mais detalhadas somente para a BR386, a qual está completamente contida no estado do Rio Grande do Sul. Entretanto, estas funcionalidades de análise podem ser aplicadas para as demais Rodovias Federais.  Como exemplo, na imagem abaixo pode ser visualizada a BR386, com o indicador de acidentes por quilômetro, permitindo que o usuário faça a interação com elementos visuais para parametrização e atualização das informações.
+		O MapPRF disponibiliza consultas mais detalhadas de cada BR, como exemplo, na imagem abaixo pode ser visualizada a BR386, com o indicador de acidentes por quilômetro, permitindo que o usuário faça a interação com elementos visuais para parametrização e atualização das informações.
 		<br>
 
 
-		<img class="ss-docs" src="https://lh5.googleusercontent.com/-FlRXOqd9G1Y/UmtAH6ZvVLI/AAAAAAAAFqU/P_JM-yI8_kQ/w936-h510-no/rodovia+1.png" alt="BR386 – Dividida por trechos e com indicador de acidentes por Km" title="BR386 – Dividida por trechos e com indicador de acidentes por Km">
+		<img class="ss-docs" src="https://lh4.googleusercontent.com/-g6CdnBENlLQ/VDILRHZYd3I/AAAAAAAAGBA/V32n40ZtuEI/w779-h553-no/br386.png" alt="BR386 – Dividida por trechos e com indicador de acidentes por Km" title="BR386 – Dividida por trechos e com indicador de acidentes por Km">
 		<br>
 		Figura 3: BR386 – Dividida por trechos e com indicador de acidentes por Km
 
 	</p>
 	<p>
-		Por considerar que o georreferenciamento pode ser de grande importância para a análise de dados e também para implementação de funcionalidades futuras, na fase de integração de dados elaboramos um procedimento que utiliza interpolação para gerar uma coordenada geográfica (Latitude, Longitude) para identificar o local aproximado de um acidente. Este procedimento foi necessário porque pouquíssimos registros eram georreferenciados na base original. Como exemplo, na imagem abaixo (Fig5) podem ser visualizados o local aproximado de acidentes com mortes.
+		Por considerar que o georreferenciamento pode ser de grande importância para a análise de dados e também para implementação de funcionalidades futuras, na fase de integração de dados elaboramos um procedimento que utiliza interpolação para gerar uma coordenada geográfica (Latitude, Longitude) para identificar o local aproximado de um acidente. Este procedimento foi necessário porque pouquíssimos registros eram georreferenciados na base original. Como exemplo, na imagem abaixo (Fig4) podem ser visualizados o local aproximado de acidentes com mortes.
 		<br>
-		<img class="ss-docs" src="https://lh6.googleusercontent.com/-PhhrokF4GZg/UmtAILGzv4I/AAAAAAAAFqY/fXZJ856zp40/w943-h510-no/rodovia+2.png" alt="Local aproximado de todos os acidentes com mortes ocorridos na BR386" title="Local aproximado de todos os acidentes com mortes ocorridos na BR386">
+		<img class="ss-docs" src="https://lh4.googleusercontent.com/-EEgJlAmrE3w/VDIMHhPBLdI/AAAAAAAAGBI/GDEkCmL3SmA/w1044-h257-no/mortes.PNG" alt="Local aproximado de todos os acidentes com mortes ocorridos na BR386" title="Local aproximado de todos os acidentes com ocorrência de morte na BR386">
 		<br>
 		Figura 4: Local aproximado de todos os acidentes com mortes ocorridos na BR386
 
 	</p>
 	<p>
+		Outra funcionalidade do MapPRF é a opção de realizar filtragem através dos dados gerados nos gráficos, basta clicar em um valor de qualquer um dos gráficos e realizar a imersão referente aquele valor. Na figura abaixo é possível visualizar os valores dos gráficos alterados após o clique no dia da semana "Quarta-Feira".
+		<br>
+		<img class="ss-docs" src="https://lh5.googleusercontent.com/-GonsJmAYK-I/VDIOJrZs8mI/AAAAAAAAGBY/ONlL4ag0BPM/w763-h553-no/filtro%2Bgr%C3%A1fico.png" alt="Filtragem dos gráficos" title="Filtragem dos gráficos">
+		<br>
+		Figura 5: Filtragem de gráficos
+	</p>
+	<p> 
+		É possível verificar os índices de ocorrências por municípios e também efetuar a filtragem deles, a figura abaixo ilustra a funcionalidade:
+		<br>
+		<img class="ss-docs" src="https://lh3.googleusercontent.com/-FmAXDQOIVls/VDIO_SPx_qI/AAAAAAAAGB8/j5s4SFeTjlU/w1044-h459-no/indice%2Bmunicipios.png" alt="Índice de Municípios" title="Índice de Municípios">
+		<br>
+		Figura 6: Índice de Municípios
+	</p>
+	<p>
+		Entre outra <i>feature</i>, existe a possibilidade de efetuar a busca por cidade, estado ou país. O qual retornará nomes que possuem determinada consulta com links que direcionam para o índice de determinada cidade/estado.
+		<br>
+		<img class="ss-docs" src="https://lh5.googleusercontent.com/-SHuXg265lTo/VDIP1zSt6dI/AAAAAAAAGCU/Sh2TTP3rqWQ/w917-h510-no/alagoas.png" alt="Filtro Cidade, Estado ou País" title="Filtro Cidade, Estado ou País">
+		<br>
+		Figura 7: Filtro cidade, estado ou país
+	</p>
+	<p>
 		Além da análise de dados, o MapPRF permite que usuários com perfil de administrador possam realizar a manutenção e atualização de dados, conforme pode ser visualizado na imagem a seguir.
-
 		<br>
-
-		<img class="ss-docs" src="https://lh4.googleusercontent.com/-lEcyx7xcpYw/Umsth2IEnFI/AAAAAAAAFpQ/BGJtGOATzgQ/w1044-h498-no/admin.png" alt="Local aproximado de todos os acidentes com mortes ocorridos na BR386" title="Local aproximado de todos os acidentes com mortes ocorridos na BR386">
+		<img class="ss-docs" src="https://lh4.googleusercontent.com/-lEcyx7xcpYw/Umsth2IEnFI/AAAAAAAAFpQ/BGJtGOATzgQ/w1044-h498-no/admin.png" alt="Painel Administrativo" title="Painel Administrativo">
 		<br>
-		Figura 5: Painel administrativo do MapPRF
+		Figura 8: Painel administrativo do MapPRF
 
 
 	</p>
