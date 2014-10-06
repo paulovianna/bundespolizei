@@ -10,6 +10,7 @@ from django.db.models import Max
 from mapprf.models import Ocorrencias, PrfRodovias, Local
 from geoliberty.models import Municipio, Regiao, Uf, Pais
 from django.views.decorators.cache import cache_page
+from django.views.decorators.csrf import ensure_csrf_cookie
 
 def inicio(request):
 	return render_to_response('mapprf.html',
