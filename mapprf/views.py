@@ -10,7 +10,7 @@ from django.db.models import Max
 from mapprf.models import Ocorrencias, PrfRodovias, Local
 from geoliberty.models import Municipio, Regiao, Uf, Pais
 from django.views.decorators.cache import cache_page
-from django.views.decorators.csrf import ensure_csrf_cookie
+from django.views.decorators.csrf import csrf_protect
 
 def inicio(request):
 	return render_to_response('mapprf.html',
@@ -21,9 +21,10 @@ def docs(request):
                               RequestContext(request,{}))
 
 @cache_page(3600 * 24)
+@csrf_protect
 def ocorrencias(request):
-	ctoken = {}
-	ctoken.update(csrf(request))
+	c = {}
+	c.update(csrf(request))
 	cidades = Municipio.objects.all().order_by('municipio')
 	identificador = request.POST.get('cidade')
 
@@ -61,7 +62,7 @@ def ocorrencias(request):
                                                       'hora':hora,
                                                       'cidades':cidades,
                                                       'cidade':cidade,
-                                                      'ctoken':ctoken}))
+                                                      'c':c}))
 
 def ocorrenciasMunicipio(request,cod):
 	ocorrencias = Ocorrencias.objects.filter(id_municipio = cod)
@@ -217,9 +218,10 @@ def ocorrenciasMunicipioAjax(request):
 	return HttpResponse(data_json)
 
 @cache_page(3600 * 24)
+@csrf_protect
 def ocorrenciasRodovia(request,cod=386):
-	ctoken = {}
-	ctoken.update(csrf(request))
+	c = {}
+	c.update(csrf(request))
 	if request.method == 'POST':
 		cod = request.POST.get('idBr')
 	codigo = str(cod)
@@ -287,7 +289,7 @@ def ocorrenciasRodovia(request,cod=386):
                                                       'pontos':pontos,
                                                       'cod':cod,
                                                       'brs':brs,
-                                                      'ctoken':ctoken}))
+                                                      'c':c}))
 
 
 
