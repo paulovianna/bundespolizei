@@ -5,7 +5,7 @@ from django.http import HttpResponse
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.core.context_processors import csrf
-from django.utils import simplejson
+import simplejson
 from django.db.models import Max
 from mapprf.models import Ocorrencias, PrfRodovias, Local
 from geoliberty.models import Municipio, Regiao, Uf, Pais
@@ -60,7 +60,8 @@ def ocorrencias(request):
                                                       'mes':mes,
                                                       'hora':hora,
                                                       'cidades':cidades,
-                                                      'cidade':cidade}))
+                                                      'cidade':cidade,
+                                                      'ctoken':ctoken}))
 
 def ocorrenciasMunicipio(request,cod):
 	ocorrencias = Ocorrencias.objects.filter(id_municipio = cod)
@@ -215,7 +216,6 @@ def ocorrenciasMunicipioAjax(request):
 
 	return HttpResponse(data_json)
 
-@ensure_csrf_cookie
 @cache_page(3600 * 24)
 def ocorrenciasRodovia(request,cod=386):
 	ctoken = {}
@@ -286,7 +286,8 @@ def ocorrenciasRodovia(request,cod=386):
                                                       'rodovia':rodovia,
                                                       'pontos':pontos,
                                                       'cod':cod,
-                                                      'brs':brs}))
+                                                      'brs':brs,
+                                                      'ctoken':ctoken}))
 
 
 
