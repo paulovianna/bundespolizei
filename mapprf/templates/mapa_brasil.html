@@ -13,21 +13,21 @@
 <div class="pure-form">
 	<form action="/mapprf/municipio/" method="post">
 		{% csrf_token %}
-		<select id="cidade" name="cidade" class="col-8" tabindex placeholder="Escolha a Cidade">
+		<select id="cidade" name="cidade" class="col-8" placeholder="Escolha a Cidade" tabindex >
 		{% for c in cidades %} {% if c.codPrf == None %}{% elif c.codPrf == iden %}<option value="{{ c.codPrf }}" selected > {{ c }}</option> {% else %} <option value="{{ c.codPrf }}"> {{ c }} </option>{% endif %}{% endfor %}
 		</select>
 		<span class="col-4">
     		<button class="pure-button pure-button-primary button-search" type="submit">Buscar</button>
 		</span>
     </form>
-    <input type='hidden' name='idDeConsulta' id='idDeConsulta' value='{{iden}}' />
-    <input type='hidden' name='diaValue' id='diaValue' value='ZZZ' />
-	<input type='hidden' name='horaValue' id='horaValue' value='ZZZ' />
-	<input type='hidden' name='mesValue' id='mesValue' value='ZZZ' />
 </div>
 {% endblock filters %}
 
 {% block featured %}
+<input type='hidden' name='idDeConsulta' id='idDeConsulta' value='{{iden}}' />
+<input type='hidden' name='diaValue' id='diaValue' value='ZZZ' />
+<input type='hidden' name='horaValue' id='horaValue' value='ZZZ' />
+<input type='hidden' name='mesValue' id='mesValue' value='ZZZ' />
 {% block featured-content%}
 	{% include 'chart_number.html' with chartName="Acidentes" icon="acidentes" value=ocorrencias %}
 	{% include 'chart_number.html' with chartName="Mortes em Acidentes" icon="mortes" value=mortes %}
