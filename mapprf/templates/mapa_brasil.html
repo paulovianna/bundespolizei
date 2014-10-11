@@ -13,7 +13,8 @@
 <div class="pure-form">
 	<form action="/mapprf/municipio/" method="post">
 		{% csrf_token %}
-		<select id="cidade" name="cidade" class="col-8" placeholder="Escolha a Cidade" tabindex >
+		<select id="cidade" name="cidade" class="col-8" placeholder="Escolha a Cidade" tabindex>
+		<option value="" selected > Selecione uma Cidade</option>
 		{% for c in cidades %} {% if c.codPrf == None %}{% elif c.codPrf == iden %}<option value="{{ c.codPrf }}" selected > {{ c }}</option> {% else %} <option value="{{ c.codPrf }}"> {{ c }} </option>{% endif %}{% endfor %}
 		</select>
 		<span class="col-4">
